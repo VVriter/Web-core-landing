@@ -1,0 +1,110 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "portfolio": "Portfolio",
+    "contact": "Contact",
+    "language": "Language"
+  },
+  "hero": {
+    "title": "Creating Digital Solutions of the Future",
+    "subtitle": "WebCore - your reliable partner in web applications, mobile apps and digital platforms development",
+    "cta": "Start Project",
+    "learn_more": "Learn More",
+    "stats": {
+      "projects": "Projects Completed",
+      "clients": "Happy Clients",
+      "years": "Years Experience",
+      "team": "Team Experts"
+    }
+  },
+  "about": {
+    "title": "About WebCore",
+    "subtitle": "We are a team of experienced developers, designers and strategists",
+    "description": "Since 2020, we help businesses grow through innovative digital solutions. Our mission is to transform ideas into successful products.",
+    "values": {
+      "innovation": {
+        "title": "Innovation",
+        "description": "Using cutting-edge technologies"
+      },
+      "quality": {
+        "title": "Quality",
+        "description": "High standards in every project"
+      },
+      "support": {
+        "title": "Support",
+        "description": "Long-term partnership with clients"
+      }
+    }
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Full spectrum of digital solutions for your business",
+    "web_development": {
+      "title": "Web Development",
+      "description": "Modern web applications using Vue.js, React, Node.js"
+    },
+    "mobile_development": {
+      "title": "Mobile Development",
+      "description": "Native and cross-platform mobile applications"
+    },
+    "ui_ux_design": {
+      "title": "UI/UX Design",
+      "description": "Intuitive interfaces and user experience"
+    },
+    "consulting": {
+      "title": "IT Consulting",
+      "description": "Strategic planning and technical solutions"
+    }
+  },
+  "portfolio": {
+    "title": "Our Work",
+    "subtitle": "Projects we're proud of",
+    "view_project": "View Project",
+    "categories": {
+      "all": "All",
+      "web": "Web",
+      "mobile": "Mobile",
+      "design": "Design"
+    }
+  },
+  "contact": {
+    "title": "Get In Touch",
+    "subtitle": "Ready to start your project? Let's discuss the details",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "message": "Message",
+      "send": "Send",
+      "sending": "Sending...",
+      "success": "Message sent successfully!",
+      "error": "Error sending message. Please try again."
+    },
+    "info": {
+      "address": "Khreshchatyk St, 1, Kyiv, Ukraine",
+      "phone": "+38 (044) 123-45-67",
+      "email": "hello@webcore.agency",
+      "hours": "Mon-Fri: 9:00 AM - 6:00 PM"
+    }
+  },
+  "footer": {
+    "description": "WebCore - your partner in creating digital future",
+    "links": {
+      "company": "Company",
+      "services": "Services",
+      "resources": "Resources"
+    },
+    "social": "Social Media",
+    "copyright": "© 2024 WebCore. All rights reserved."
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "close": "Close",
+    "open": "Open",
+    "more": "More"
+  }
+}
