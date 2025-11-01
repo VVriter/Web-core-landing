@@ -13,6 +13,10 @@
         <NuxtRouteAnnouncer />
         <NuxtPage />
       </main>
+      
+      <Footer />
+      
+      <ContactModal />
     </div>
   </div>
 </template>
@@ -22,6 +26,8 @@ import { usePageLoader } from '../composables/usePageLoader'
 import { useTheme } from '../composables/useTheme'
 import PageLoader from '../components/PageLoader.vue'
 import NavBar from '../components/NavBar.vue'
+import Footer from '../components/Footer.vue'
+import ContactModal from '../components/ContactModal.vue'
 
 const { isLoading, progress, loadingMessage } = usePageLoader()
 
@@ -73,17 +79,18 @@ body {
   min-height: 100vh;
   background: var(--color-bg-primary);
   transition: background-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .main-content {
   padding-top: 70px; /* Account for fixed navbar */
-  min-height: calc(100vh - 70px);
+  flex: 1;
 }
 
 @media (max-width: 1343px) {
   .main-content {
     padding-top: 60px; /* Account for smaller mobile navbar */
-    min-height: calc(100vh - 60px);
   }
 }
 

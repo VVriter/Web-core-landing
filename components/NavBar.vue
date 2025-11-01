@@ -21,7 +21,7 @@
           class="nav-link"
           :class="{ 'active': $route.path === item.href }"
         >
-          <Icon :name="item.icon" class="nav-icon" />
+          <Icon :name="item.icon" size="md" class="nav-icon" />
           {{ item.name }}
         </NuxtLink>
       </div>
@@ -33,12 +33,12 @@
           @click="toggleTheme"
           :title="isDark ? 'Перемкнути на світлу тему' : 'Перемкнути на темну тему'"
         >
-          <Icon :name="isDark ? 'mdi:weather-sunny' : 'mdi:weather-night'" />
+          <Icon :name="isDark ? 'mdi:weather-sunny' : 'mdi:weather-night'" size="md" />
         </button>
         
-        <button class="cta-button primary">
-          <Icon name="mdi:rocket-launch" class="cta-icon" />
-          Почати проект
+        <button class="cta-button primary" @click="openModal('contact')">
+          <Icon name="mdi:rocket-launch" size="md" class="cta-icon" />
+          Зв'язатися з нами
         </button>
       </div>
 
@@ -68,7 +68,7 @@
               :class="{ 'active': $route.path === item.href }"
               @click="closeMobileMenu"
             >
-              <Icon :name="item.icon" class="mobile-nav-icon" />
+              <Icon :name="item.icon" size="md" class="mobile-nav-icon" />
               {{ item.name }}
             </NuxtLink>
           </div>
@@ -79,13 +79,13 @@
               @click="toggleTheme"
               :title="isDark ? 'Перемкнути на світлу тему' : 'Перемкнути на темну тему'"
             >
-              <Icon :name="isDark ? 'mdi:weather-sunny' : 'mdi:weather-night'" />
+              <Icon :name="isDark ? 'mdi:weather-sunny' : 'mdi:weather-night'" size="md" />
               {{ isDark ? 'Світла тема' : 'Темна тема' }}
             </button>
             
-            <button class="cta-button primary mobile" @click="closeMobileMenu">
-              <Icon name="mdi:rocket-launch" class="cta-icon" />
-              Почати проект
+            <button class="cta-button primary mobile" @click="openModal('contact'); closeMobileMenu()">
+              <Icon name="mdi:rocket-launch" size="md" class="cta-icon" />
+              Зв'язатися з нами
             </button>
           </div>
         </div>
@@ -98,6 +98,10 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import WebCoreLogo from './WebCoreLogo.vue'
 import { useTheme } from '../composables/useTheme'
+import { useModal } from '../composables/useModal'
+
+// Modal system
+const { openModal } = useModal()
 
 // Navigation items
 const navItems = [
@@ -142,7 +146,7 @@ onMounted(() => {
   window.addEventListener('scroll', handleScroll)
   
   // Close mobile menu on route change
-  if (process.client) {
+  if (typeof window !== 'undefined') {
     try {
       const router = useRouter()
       router.afterEach(() => {

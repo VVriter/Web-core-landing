@@ -1,17 +1,22 @@
 import { ref, readonly, onMounted } from 'vue'
 
 export const usePageLoader = () => {
-  const isLoading = ref(true)
+  // TEMPORARY: Set to false to disable loader, true to enable
+  const LOADER_ENABLED = false
+  
+  const isLoading = ref(false)
   const progress = ref(0)
   const loadingMessage = ref('Ініціалізація...')
 
   const startLoading = (message = 'Завантаження...') => {
+    if (!LOADER_ENABLED) return
     isLoading.value = true
     progress.value = 0
     loadingMessage.value = message
   }
 
   const updateProgress = (newProgress: number, message?: string) => {
+    if (!LOADER_ENABLED) return
     progress.value = Math.min(100, Math.max(0, newProgress))
     if (message) {
       loadingMessage.value = message
@@ -19,6 +24,7 @@ export const usePageLoader = () => {
   }
 
   const finishLoading = () => {
+    if (!LOADER_ENABLED) return
     progress.value = 100
     loadingMessage.value = 'Готово!'
     
@@ -30,6 +36,8 @@ export const usePageLoader = () => {
 
   // Auto-hide loader after mounted (for initial page load)
   onMounted(() => {
+    if (!LOADER_ENABLED) return
+    
     // Simulate initial loading
     setTimeout(() => {
       updateProgress(30, 'Завантаження ресурсів...')
