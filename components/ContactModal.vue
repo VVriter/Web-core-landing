@@ -78,7 +78,7 @@
                   v-model="formData.phone"
                   type="tel"
                   class="form-input"
-                  placeholder="+38 (000) 000-00-00"
+                  placeholder="+380777707232"
                   :disabled="isSubmitting"
                 />
               </div>

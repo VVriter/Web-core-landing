@@ -33,7 +33,7 @@
                 <Icon name="mdi:phone" class="contact-icon" />
                 <div class="contact-item-content">
                   <h3 class="contact-item-title">Телефон</h3>
-                  <a href="tel:+380441234567" class="contact-item-value">+38 (044) 123-45-67</a>
+                  <a href="tel:+380441234567" class="contact-item-value">+380777707232</a>
                 </div>
               </div>
               

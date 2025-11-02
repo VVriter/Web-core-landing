@@ -384,8 +384,15 @@ const socialLinks = [
   color: #25D366;
 }
 
-.contact-item .contact-icon[name*="viber"] {
+.contact-item .contact-icon[name*="viber"],
+.contact-item .contact-icon[name*="simple-icons:viber"] {
   color: #7360F2;
+}
+
+/* Стилі для соціальних іконок */
+.social-link[title="Viber"] .contact-icon,
+.social-link[title="Viber"] svg {
+  color: #7360F2 !important;
 }
 
 /* Альтернативний Viber стиль якщо іконка не відображається */
