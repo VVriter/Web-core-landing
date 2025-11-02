@@ -61,15 +61,6 @@
       </button>
     </div>
 
-    <!-- Mobile Backdrop -->
-    <Transition name="backdrop">
-      <div 
-        v-if="isMobileMenuOpen" 
-        class="mobile-backdrop"
-        @click="closeMobileMenu"
-      ></div>
-    </Transition>
-
     <!-- Mobile Navigation -->
     <Transition name="mobile-menu">
       <div v-if="isMobileMenuOpen" class="mobile-nav">
@@ -286,6 +277,18 @@ onMounted(() => {
   max-width: 1400px;
 }
 
+/* Mobile first - override grid with flex */
+@media (max-width: 1343px) {
+  .navbar-container {
+    display: flex !important;
+    grid-template-columns: none !important;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    height: 60px;
+  }
+}
+
 /* Brand Section */
 .navbar-brand {
   display: flex;
@@ -479,7 +482,6 @@ onMounted(() => {
   border-radius: 12px;
   color: var(--color-text-secondary);
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(10px);
   position: relative;
   overflow: hidden;
@@ -505,9 +507,7 @@ onMounted(() => {
 
 .theme-toggle:hover {
   background: var(--color-bg-tertiary);
-  color: var(--color-accent-primary);
   border-color: var(--color-border-accent);
-  transform: translateY(-2px) rotate(15deg);
   box-shadow: 0 4px 16px rgba(139, 92, 246, 0.25);
 }
 
@@ -608,6 +608,8 @@ onMounted(() => {
   align-items: center;
   width: 44px;
   height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   background: var(--color-card-bg);
   border: 1px solid var(--color-border-primary);
   border-radius: 12px;
@@ -616,7 +618,10 @@ onMounted(() => {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(10px);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+  z-index: 1002;
+  flex-shrink: 0;
+  order: 999;
 }
 
 .mobile-toggle::before {
@@ -688,7 +693,6 @@ onMounted(() => {
 
 /* Mobile Navigation */
 .mobile-nav {
-  position: fixed;
   top: 70px;
   left: 0;
   right: 0;
@@ -835,19 +839,25 @@ onMounted(() => {
 /* Responsive Design */
 @media (max-width: 1343px) {
   .desktop-nav {
-    display: none;
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
   }
   
   .mobile-toggle {
-    display: flex;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 44px !important;
+    height: 44px !important;
+    position: relative !important;
   }
   
-  .navbar-container {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 1.5rem;
-    height: 60px;
-    gap: 1rem;
+  .navbar-brand {
+    flex-shrink: 0;
+    flex-grow: 0;
   }
   
   .brand-link {
