@@ -43,12 +43,12 @@
 
           <!-- CTA Buttons -->
           <div class="hero-actions">
-            <button class="btn-primary pulse-animation" @click="openModal('order')">
+            <button class="btn-primary pulse-animation" @click="handleOrderClick">
               <Icon name="mdi:rocket-launch" size="lg" />
-              Замовити проект
+              Замовити проєкт
               <span class="btn-shine"></span>
             </button>
-            <button class="btn-secondary" @click="openModal('contact')">
+            <button class="btn-secondary" @click="handleContactClick">
               <Icon name="mdi:send" size="lg" />
               Зв'язатися зараз
             </button>
@@ -144,8 +144,21 @@
 <script setup lang="ts">
 import Icon from '../Icon.vue'
 import { useModal } from '../../composables/useModal'
+import { usePostHog } from '../../composables/usePostHog'
 
 const { openModal } = useModal()
+const { trackBusinessEvent } = usePostHog()
+
+// Handle CTA clicks with analytics
+const handleOrderClick = () => {
+  trackBusinessEvent.ctaClicked('Замовити проєкт', 'hero_section')
+  openModal('order')
+}
+
+const handleContactClick = () => {
+  trackBusinessEvent.ctaClicked('Зв\'язатися зараз', 'hero_section')
+  openModal('contact')
+}
 
 // Stats data
 const stats = [

@@ -18,7 +18,7 @@
           <span>Допомога</span>
         </div>
         <h2 class="section-title">
-          Часті <span class="gradient-text">питання</span>
+          <span class="gradient-text">FAQ</span> (запитання й відповіді)
         </h2>
         <p class="section-description">
           Відповіді на найпоширеніші питання про наші послуги та процес роботи

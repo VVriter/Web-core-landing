@@ -16,11 +16,11 @@
               </div>
               <div class="header-text">
                 <h2 class="modal-title">
-                  {{ modalType === 'order' ? 'Замовити проект' : 'Зв\'язатися з нами' }}
+                  {{ modalType === 'order' ? 'Замовити проєкт' : 'Зв\'язатися з нами' }}
                 </h2>
                 <p class="modal-subtitle">
                   {{ modalType === 'order' 
-                    ? 'Розкажіть нам про ваш проект, і ми зв\'яжемося з вами найближчим часом' 
+                    ? 'Розкажіть нам про ваш проєкт, і ми зв\'яжемося з вами найближчим часом' 
                     : 'Надішліть нам повідомлення, і ми відповімо вам протягом 24 годин' }}
                 </p>
               </div>
@@ -95,7 +95,7 @@
                   class="form-textarea"
                   rows="5"
                   :placeholder="modalType === 'order' 
-                    ? 'Опишіть ваш проект, терміни та особливі вимоги...' 
+                    ? 'Опишіть ваш проєкт, терміни та особливі вимоги...' 
                     : 'Ваше повідомлення...'"
                   required
                   :disabled="isSubmitting"
@@ -151,6 +151,7 @@ import { useModal } from '../composables/useModal'
 
 const { isOpen, modalType, closeModal } = useModal()
 const { submitForm } = useFormSubmit()
+const { $posthog } = useNuxtApp()
 
 // Form data
 const formData = ref({
@@ -170,9 +171,19 @@ const isFormValid = computed(() => {
          formData.value.message.trim() !== ''
 })
 
-// Reset form when modal closes
+// Reset form when modal closes and track modal events
 watch(isOpen, (newValue) => {
-  if (!newValue) {
+  if (newValue) {
+    // PostHog трекінг відкриття модального вікна
+    if ($posthog) {
+      $posthog.capture('modal_opened', {
+        modal_type: modalType.value,
+        timestamp: new Date().toISOString(),
+        page: typeof window !== 'undefined' ? window.location.pathname : 'unknown'
+      })
+    }
+  } else {
+    // Reset form when modal closes
     formData.value = {
       name: '',
       email: '',
@@ -180,6 +191,14 @@ watch(isOpen, (newValue) => {
       message: ''
     }
     message.value = { type: null, text: '' }
+    
+    // PostHog трекінг закриття модального вікна
+    if ($posthog) {
+      $posthog.capture('modal_closed', {
+        modal_type: modalType.value,
+        timestamp: new Date().toISOString()
+      })
+    }
   }
 })
 
@@ -192,7 +211,7 @@ const handleSubmit = async () => {
 
   try {
     const subject = modalType.value === 'order' 
-      ? 'Нова заявка на проект - WebCore'
+      ? 'Нова заявка на проєкт - WebCore'
       : 'Нове повідомлення з сайту - WebCore'
 
     const result = await submitForm({
@@ -205,6 +224,17 @@ const handleSubmit = async () => {
 
     if (result.success) {
       message.value = { type: 'success', text: result.message || 'Повідомлення успішно відправлено!' }
+      
+      // PostHog трекінг успішної відправки форми
+      if ($posthog) {
+        $posthog.capture('form_submitted_success', {
+          form_type: modalType.value,
+          subject: subject,
+          has_phone: !!formData.value.phone,
+          message_length: formData.value.message.length,
+          timestamp: new Date().toISOString()
+        })
+      }
       
       // Reset form after success
       formData.value = {
@@ -220,11 +250,29 @@ const handleSubmit = async () => {
       }, 2000)
     } else {
       message.value = { type: 'error', text: result.message || 'Помилка відправки повідомлення' }
+      
+      // PostHog трекінг помилки форми
+      if ($posthog) {
+        $posthog.capture('form_submitted_error', {
+          form_type: modalType.value,
+          error_message: result.message || 'Unknown error',
+          timestamp: new Date().toISOString()
+        })
+      }
     }
   } catch (error) {
     message.value = { 
       type: 'error', 
       text: error instanceof Error ? error.message : 'Помилка відправки повідомлення' 
+    }
+    
+    // PostHog трекінг критичної помилки
+    if ($posthog) {
+      $posthog.capture('form_submitted_critical_error', {
+        form_type: modalType.value,
+        error: error instanceof Error ? error.message : 'Critical error',
+        timestamp: new Date().toISOString()
+      })
     }
   } finally {
     isSubmitting.value = false

@@ -16,6 +16,21 @@ import FeaturesSection from '../../components/sections/FeaturesSection.vue'
 import FaqSection from '../../components/sections/FaqSection.vue'
 import PortfolioSection from '../../components/sections/PortfolioSection.vue'
 
+// PostHog analytics
+const { $posthog } = useNuxtApp()
+
+// Трекінг перегляду головної сторінки
+onMounted(() => {
+  if ($posthog) {
+    $posthog.capture('homepage_viewed', {
+      page: 'homepage',
+      timestamp: new Date().toISOString(),
+      user_agent: navigator.userAgent,
+      referrer: document.referrer || 'direct'
+    })
+  }
+})
+
 // SEO - useHead is a Nuxt 3 composable available globally
 const siteUrl = 'https://web-core.agency'
 const siteTitle = 'WebCore - Перетворюємо ідеї на цифровий успіх'

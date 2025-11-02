@@ -190,12 +190,36 @@ const formatDate = (dateString: string | Date) => {
   })
 }
 
-// Handle post click for debugging
+// PostHog analytics
+const { $posthog } = useNuxtApp()
+
+// Трекінг перегляду блогу
+onMounted(() => {
+  if ($posthog) {
+    $posthog.capture('blog_page_viewed', {
+      posts_count: blogPosts.value?.length || 0,
+      timestamp: new Date().toISOString()
+    })
+  }
+})
+
+// Handle post click for debugging and analytics
 const handlePostClick = (post: any) => {
   console.log('Post clicked:', post)
   console.log('Post _path:', post._path)
   console.log('Post slug:', post.slug)
   console.log('Will navigate to:', post._path || '/blog')
+  
+  // PostHog трекінг кліку на статтю
+  if ($posthog) {
+    $posthog.capture('blog_post_clicked', {
+      post_title: post.title,
+      post_category: post.meta?.category,
+      post_slug: post.slug,
+      post_path: post._path,
+      timestamp: new Date().toISOString()
+    })
+  }
 }
 
 // Generate consistent particle styles (no random for SSR compatibility)

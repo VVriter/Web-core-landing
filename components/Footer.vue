@@ -75,22 +75,35 @@
               <div class="contact-item">
                 <Icon name="mdi:map-marker" class="contact-icon" />
                 <div>
-                  <p>м. Київ, вул. Хрещатик, 1</p>
-                  <p>офіс 42, 01001</p>
+                  <p>м. Київ</p>
                 </div>
               </div>
               <div class="contact-item">
                 <Icon name="mdi:phone" class="contact-icon" />
                 <div>
-                  <p>+38 (044) 123-45-67</p>
-                  <p>+38 (050) 987-65-43</p>
+                  <p>+380777707232</p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <Icon name="mdi:whatsapp" class="contact-icon" />
+                <div>
+                  <a href="https://wa.me/380777707232" target="_blank" rel="noopener" class="messenger-link">
+                    WhatsApp: +380777707232
+                  </a>
+                </div>
+              </div>
+              <div class="contact-item">
+                <Icon name="simple-icons:viber" class="contact-icon" />
+                <div>
+                  <a href="viber://chat?number=+380777707232" target="_blank" rel="noopener" class="messenger-link">
+                    Viber: +380777707232
+                  </a>
                 </div>
               </div>
               <div class="contact-item">
                 <Icon name="mdi:email" class="contact-icon" />
                 <div>
-                  <p>hello@webcore.ua</p>
-                  <p>support@webcore.ua</p>
+                  <p>support@web-core.agency</p>
                 </div>
               </div>
               <div class="contact-item">
@@ -204,6 +217,16 @@ const socialLinks = [
     name: 'Instagram',
     url: 'https://www.instagram.com/web_core_studio?igsh=MTF3bTYwNmExcXg2ag%3D%3D&utm_source=qr',
     icon: 'mdi:instagram'
+  },
+  {
+    name: 'WhatsApp',
+    url: 'https://wa.me/380777707232',
+    icon: 'mdi:whatsapp'
+  },
+  {
+    name: 'Viber',
+    url: 'viber://chat?number=+380777707232',
+    icon: 'simple-icons:viber'
   }
 ]
 </script>
@@ -343,6 +366,40 @@ const socialLinks = [
   color: var(--color-text-secondary);
   font-size: 0.95rem;
   line-height: 1.4;
+}
+
+.messenger-link {
+  color: var(--color-text-primary) !important;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.messenger-link:hover {
+  color: var(--color-accent-primary) !important;
+}
+
+/* Спеціальні стилі для іконок месенджерів */
+.contact-item .contact-icon[name*="whatsapp"] {
+  color: #25D366;
+}
+
+.contact-item .contact-icon[name*="viber"] {
+  color: #7360F2;
+}
+
+/* Альтернативний Viber стиль якщо іконка не відображається */
+.viber-icon-fallback {
+  background: #7360F2;
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
 }
 
 /* Newsletter Section */

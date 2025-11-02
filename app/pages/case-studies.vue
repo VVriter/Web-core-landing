@@ -27,7 +27,7 @@
 useHead({
   title: 'Кейси - WebCore',
   meta: [
-    { name: 'description', content: 'Успішні кейси та проекти WebCore' }
+    { name: 'description', content: 'Успішні кейси та проєкти WebCore' }
   ]
 })
 </script>

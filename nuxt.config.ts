@@ -3,6 +3,14 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
+  runtimeConfig: {
+    public: {
+      posthogPublicKey: 'phc_HTeZfabzEkhAJ89ZZGedcvwX0xadpKuWgB2TVUDscQU',
+      posthogHost: 'https://eu.i.posthog.com',
+      posthogDefaults: '2025-05-24'
+    }
+  },
+
   app: {
     head: {
       htmlAttrs: {

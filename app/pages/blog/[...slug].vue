@@ -96,6 +96,7 @@
                 target="_blank" 
                 class="share-btn facebook"
                 aria-label="Поділитися у Facebook"
+                @click="trackSocialShare('facebook')"
               >
                 <Icon name="mdi:facebook" size="md" />
               </a>
@@ -104,6 +105,7 @@
                 target="_blank" 
                 class="share-btn twitter"
                 aria-label="Поділитися у Twitter"
+                @click="trackSocialShare('twitter')"
               >
                 <Icon name="mdi:twitter" size="md" />
               </a>
@@ -112,6 +114,7 @@
                 target="_blank" 
                 class="share-btn linkedin"
                 aria-label="Поділитися у LinkedIn"
+                @click="trackSocialShare('linkedin')"
               >
                 <Icon name="mdi:linkedin" size="md" />
               </a>
@@ -283,6 +286,25 @@ if (!post.value) {
 
 console.log('Post loaded successfully:', post.value.title)
 
+// PostHog analytics
+const { $posthog } = useNuxtApp()
+
+// Трекінг перегляду статті
+onMounted(() => {
+  if ($posthog && post.value) {
+    $posthog.capture('blog_post_viewed', {
+      post_title: post.value.title,
+      post_category: post.value.meta?.category,
+      post_slug: post.value.slug,
+      post_read_time: post.value.meta?.readTime,
+      post_author: post.value.meta?.author,
+      post_tags: post.value.meta?.tags?.join(', '),
+      timestamp: new Date().toISOString(),
+      referrer: typeof window !== 'undefined' ? document.referrer : 'unknown'
+    })
+  }
+})
+
 // SEO
 // @ts-ignore
 useHead({
@@ -347,11 +369,43 @@ const copyLink = async () => {
   try {
     await navigator.clipboard.writeText(window.location.href)
     linkCopied.value = true
+    
+    // PostHog трекінг копіювання посилання
+    if ($posthog) {
+      $posthog.capture('post_link_copied', {
+        post_title: post.value?.title,
+        post_slug: post.value?.slug,
+        timestamp: new Date().toISOString()
+      })
+    }
+    
     setTimeout(() => {
       linkCopied.value = false
     }, 2000)
   } catch (err) {
     console.error('Failed to copy link:', err)
+    
+    // PostHog трекінг помилки копіювання
+    if ($posthog) {
+      $posthog.capture('post_link_copy_failed', {
+        post_title: post.value?.title,
+        error: err.message || 'Copy failed',
+        timestamp: new Date().toISOString()
+      })
+    }
+  }
+}
+
+// Трекінг соціальних поділитися
+const trackSocialShare = (platform: string) => {
+  if ($posthog) {
+    $posthog.capture('post_shared', {
+      platform: platform,
+      post_title: post.value?.title,
+      post_slug: post.value?.slug,
+      post_category: post.value?.meta?.category,
+      timestamp: new Date().toISOString()
+    })
   }
 }
 

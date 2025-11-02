@@ -53,7 +53,7 @@ useHead({
 const values = [
   {
     title: 'Якість',
-    description: 'Високі стандарти в кожному проекті',
+    description: 'Високі стандарти в кожному проєкті',
     icon: 'mdi:star'
   },
   {

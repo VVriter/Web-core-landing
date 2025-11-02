@@ -25,7 +25,7 @@
                 <Icon name="mdi:email" class="contact-icon" />
                 <div class="contact-item-content">
                   <h3 class="contact-item-title">Email</h3>
-                  <a href="mailto:hello@webcore.agency" class="contact-item-value">hello@webcore.agency</a>
+                  <a href="mailto:support@web-core.agency" class="contact-item-value">support@web-core.agency</a>
                 </div>
               </div>
               
