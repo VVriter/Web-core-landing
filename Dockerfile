@@ -19,6 +19,17 @@ COPY . .
 # Build the Nuxt application
 RUN npm run build
 
+# Verify .output directory exists and show structure
+RUN ls -la /app/ && \
+    if [ ! -d "/app/.output" ]; then \
+        echo "ERROR: .output directory not found after build!" && \
+        echo "Contents of /app:" && \
+        ls -la /app/ && \
+        exit 1; \
+    fi && \
+    echo ".output structure:" && \
+    ls -la /app/.output/
+
 # Production image with Node.js to run Nuxt SSR
 FROM base AS runner
 RUN apk add --no-cache wget
@@ -32,9 +43,10 @@ ENV HOST=0.0.0.0
 COPY package*.json ./
 RUN npm ci --omit=dev --legacy-peer-deps && npm cache clean --force
 
-# Copy built application
+# Copy built application and config
 COPY --from=builder /app/.output ./.output
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/nuxt.config.ts ./nuxt.config.ts 2>/dev/null || true
 
 EXPOSE 3000
 
