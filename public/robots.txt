@@ -1,24 +1,54 @@
-User-Agent: *
+# robots.txt для WebCore Agency
+
+# Дозволити всім роботам індексувати сайт
+User-agent: *
 Allow: /
 
-# Sitemap
+# Заборонити індексацію тимчасових та службових сторінок
+Disallow: /admin/
+Disallow: /api/
+Disallow: /_nuxt/
+Disallow: /.nuxt/
+Disallow: /server/
+Disallow: /temp/
+Disallow: /draft/
+Disallow: /*?*
+
+# Дозволити важливі ресурси
+Allow: /images/
+Allow: /css/
+Allow: /js/
+Allow: /fonts/
+Allow: /*.css
+Allow: /*.js
+Allow: /*.woff2
+Allow: /*.woff
+Allow: /*.ttf
+
+# Спеціальні правила для Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Спеціальні правила для Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+# Заборонити агресивних ботів
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+# Розташування sitemap
 Sitemap: https://web-core.agency/sitemap.xml
 
-# Disallow admin and private areas
-Disallow: /admin/
-Disallow: /private/
-Disallow: /*.json$
-Disallow: /api/
-
-# Allow important files
-Allow: /favicon.ico
-Allow: /favicon.svg
-Allow: /robots.txt
-Allow: /sitemap.xml
-
-# Crawl-delay for aggressive bots
-User-Agent: AhrefsBot
-Crawl-Delay: 10
-
-User-Agent: SemrushBot
-Crawl-Delay: 10
+# Додаткова інформація
+# Сайт: https://web-core.agency
+# Контакт: support@web-core.agency
+# Останнє оновлення: 2024-11-02
