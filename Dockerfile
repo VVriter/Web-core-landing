@@ -16,15 +16,29 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build the Nuxt application
-RUN npm run build
+# Prepare Nuxt (generates .nuxt directory)
+RUN echo "Preparing Nuxt..." && \
+    npm run postinstall || npx nuxt prepare || true
+
+# Build the Nuxt application with verbose output
+RUN echo "Starting Nuxt build..." && \
+    NODE_ENV=production npm run build && \
+    echo "Build completed. Checking for .output..." && \
+    ls -la /app/ | head -20 && \
+    echo "Looking for .output directory:" && \
+    find /app -name ".output" -type d 2>/dev/null || echo "No .output found" && \
+    echo "Checking current directory contents:" && \
+    ls -la /app/.output 2>&1 || (echo ".output directory not found!" && exit 1)
 
 # Verify .output directory exists and show structure
-RUN ls -la /app/ && \
+RUN echo "Checking for .output after build..." && \
+    ls -la /app/ && \
     if [ ! -d "/app/.output" ]; then \
         echo "ERROR: .output directory not found after build!" && \
-        echo "Contents of /app:" && \
-        ls -la /app/ && \
+        echo "Checking if build completed..." && \
+        ls -la /app/ | grep -E "\.(nuxt|data|output)" && \
+        echo "Trying to list .output even if it doesn't exist:" && \
+        ls -la /app/.output 2>&1 || true && \
         exit 1; \
     fi && \
     echo ".output structure:" && \
