@@ -57,8 +57,8 @@ RUN npm ci --omit=dev --legacy-peer-deps && npm cache clean --force
 # Copy built Nuxt output
 COPY --from=build --chown=nuxt:nodejs /app/.output ./.output
 
-# Copy public directory if exists
-COPY --from=build --chown=nuxt:nodejs /app/public ./public 2>/dev/null || true
+# Copy public directory
+COPY --from=build --chown=nuxt:nodejs /app/public ./public
 
 # Switch to non-root user
 USER nuxt
