@@ -836,111 +836,354 @@ const scrollToFeatures = () => {
 @media (max-width: 1343px) {
   .hero-section {
     min-height: calc(100vh - 60px);
-    padding: 80px 0 40px;
+    padding: 2rem 0;
+  }
+
+  .hero-container {
+    padding: 0 1.5rem;
+  }
+
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    text-align: center;
+  }
+
+  .hero-main {
+    order: 1;
+    max-width: 100%;
+  }
+
+  .hero-visual {
+    order: 2;
+    display: none;
+  }
+  
+  .hero-title {
+    font-size: 2.25rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-stats {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    padding: 0;
+    margin-bottom: 1.5rem;
+    background: transparent;
+    border: none;
+  }
+
+  .stat-item {
+    padding: 0.75rem 0.5rem;
+    border-radius: 8px;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border-primary);
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+
+  .stat-item:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-border-accent);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    line-height: 1.2;
+  }
+  
+  .hero-actions {
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    flex: 1;
+    min-width: 140px;
+    max-width: calc(50% - 0.375rem);
+    justify-content: center;
+    padding: 0.875rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .trust-indicators {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 0;
+  }
+
+  .trust-item {
+    flex: 1;
+    min-width: 100px;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    background: transparent;
+    border: none;
+  }
+
+  .demo-container {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .demo-browser {
+    width: 100%;
+  }
+
+  .browser-content {
+    padding: 1rem;
+    min-height: 200px;
+  }
+
+  .floating-elements {
+    display: none;
+  }
+
+  .orb-1, .orb-2, .orb-3 {
+    filter: blur(30px);
+    opacity: 0.3;
+  }
+
+  .scroll-indicator {
+    bottom: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: auto;
+    padding: 1.5rem 0 2rem;
   }
 
   .hero-container {
     padding: 0 1rem;
   }
+
+  .hero-content {
+    gap: 2rem;
+  }
+
+  .hero-badge {
+    font-size: 0.75rem;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+  }
   
   .hero-title {
-    font-size: 2.5rem;
+    font-size: 1.875rem;
+    line-height: 1.3;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-description {
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
   }
 
   .hero-stats {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    padding: 1.5rem 0;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    padding: 0;
+  }
+
+  .stat-item {
+    padding: 0.625rem 0.375rem;
   }
 
   .stat-number {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+    margin-bottom: 0.125rem;
   }
-  
-  .hero-description {
-    font-size: 1.125rem;
+
+  .stat-label {
+    font-size: 0.7rem;
+    line-height: 1.2;
   }
-  
+
   .hero-actions {
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+    gap: 0.625rem;
+    margin-bottom: 1.25rem;
   }
   
   .btn-primary,
   .btn-secondary {
-    width: 100%;
-    max-width: 300px;
-    justify-content: center;
-    padding: 1rem 1.5rem;
+    flex: 1;
+    min-width: 130px;
+    max-width: calc(50% - 0.3125rem);
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
   }
 
   .trust-indicators {
-    justify-content: center;
-    gap: 1.5rem;
+    gap: 0.75rem;
+    padding: 0;
   }
 
-  .demo-container {
-    max-width: 350px;
-  }
-
-  .browser-content {
-    padding: 1.5rem;
-    min-height: 250px;
-  }
-
-  .orb-1, .orb-2, .orb-3 {
-    filter: blur(40px);
-    opacity: 0.4;
+  .trust-item {
+    font-size: 0.75rem;
+    padding: 0.375rem;
+    min-width: 90px;
   }
 }
 
 @media (max-width: 480px) {
+  .hero-section {
+    padding: 1rem 0 1.5rem;
+  }
+
   .hero-container {
     padding: 0 0.75rem;
   }
+
+  .hero-content {
+    gap: 1.5rem;
+  }
+
+  .hero-badge {
+    font-size: 0.7rem;
+    padding: 0.4rem 0.875rem;
+    margin-bottom: 0.75rem;
+  }
   
   .hero-title {
-    font-size: 2rem;
+    font-size: 1.625rem;
+    line-height: 1.25;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-description {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero-stats {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.375rem;
+    padding: 0;
+  }
+
+  .stat-item {
+    padding: 0.5rem 0.25rem;
+    border-radius: 6px;
+  }
+
+  .stat-number {
+    font-size: 1.125rem;
+    margin-bottom: 0.125rem;
+  }
+
+  .stat-label {
+    font-size: 0.65rem;
+    line-height: 1.1;
   }
   
   .hero-actions {
-    flex-direction: column;
-    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
   }
   
   .btn-primary,
   .btn-secondary {
-    width: 100%;
+    flex: 1;
+    min-width: 120px;
+    max-width: calc(50% - 0.25rem);
+    padding: 0.625rem 0.875rem;
+    font-size: 0.8rem;
+  }
+
+  .btn-primary .btn-shine,
+  .btn-secondary .btn-shine {
+    display: none;
+  }
+
+  .trust-indicators {
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
-    padding: 0.875rem 1rem;
-    font-size: 0.9rem;
+    gap: 0.5rem;
+    padding: 0;
   }
 
-  .features-section {
-    padding: 3rem 0;
+  .trust-item {
+    flex: 0 0 auto;
+    justify-content: center;
+    font-size: 0.7rem;
+    padding: 0.375rem 0.5rem;
+    min-width: 80px;
   }
 
-  .features-grid .feature-card {
-    min-height: 220px;
-    padding: 1.25rem;
+  .demo-container {
+    margin-top: 1rem;
   }
 
-  .feature-icon {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 1rem;
+  .demo-browser {
+    border-radius: 12px;
   }
 
-  .feature-title {
-    font-size: 1.25rem;
-    margin-bottom: 0.75rem;
+  .browser-header {
+    padding: 0.5rem 0.75rem;
   }
 
-  .feature-description {
-    font-size: 0.9rem;
-    line-height: 1.5;
+  .browser-dots {
+    gap: 0.375rem;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .browser-url {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .browser-content {
+    padding: 0.75rem;
+    min-height: 180px;
+  }
+
+  .scroll-indicator {
+    bottom: 0.5rem;
+    transform: translateX(-50%) scale(0.9);
+  }
+
+  .scroll-text {
+    font-size: 0.75rem;
   }
 }
 </style>

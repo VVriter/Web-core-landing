@@ -101,11 +101,15 @@ const themes = {
 export const useTheme = () => {
   // Initialize theme from localStorage or system preference
   const initializeTheme = () => {
-    if (process.client) {
-      // Check localStorage first
+    if (typeof window !== 'undefined') {
+      // Check localStorage first (already applied in inline script)
       const savedTheme = localStorage.getItem(STORAGE_KEY) as Theme
       if (savedTheme && ['light', 'dark', 'auto'].includes(savedTheme)) {
         selectedTheme.value = savedTheme
+      } else {
+        // If no saved theme, check what was applied by inline script
+        const hasDarkClass = document.body.classList.contains('theme-dark')
+        selectedTheme.value = hasDarkClass ? 'dark' : 'light'
       }
       
       // Check system preference
@@ -128,7 +132,7 @@ export const useTheme = () => {
   
   // Apply theme to document
   const applyTheme = (theme: 'light' | 'dark') => {
-    if (process.client) {
+    if (typeof window !== 'undefined') {
       const root = document.documentElement
       const themeColors = themes[theme]
       
@@ -142,22 +146,20 @@ export const useTheme = () => {
       document.body.classList.add(`theme-${theme}`)
       
       // Update meta theme-color for mobile browsers
-      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
-      if (metaThemeColor) {
-        metaThemeColor.setAttribute('content', themeColors['bg-primary'])
-      } else {
-        const meta = document.createElement('meta')
-        meta.name = 'theme-color'
-        meta.content = themeColors['bg-primary']
-        document.head.appendChild(meta)
+      let metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      if (!metaThemeColor) {
+        metaThemeColor = document.createElement('meta')
+        metaThemeColor.setAttribute('name', 'theme-color')
+        document.head.appendChild(metaThemeColor)
       }
+      metaThemeColor.setAttribute('content', themeColors['bg-primary'])
     }
   }
   
   // Set theme
   const setTheme = (theme: Theme) => {
     selectedTheme.value = theme
-    if (process.client) {
+    if (typeof window !== 'undefined') {
       localStorage.setItem(STORAGE_KEY, theme)
     }
   }
