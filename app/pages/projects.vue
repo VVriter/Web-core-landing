@@ -25,7 +25,6 @@ useHead({
 
 .projects-page {
   min-height: 100vh;
-  padding-top: 70px;
 }
 
 .projects-hero {
