@@ -20,29 +20,39 @@ COPY . .
 RUN echo "Preparing Nuxt..." && \
     npm run postinstall || npx nuxt prepare || true
 
+# Install better-sqlite3 for @nuxt/content (or skip if not needed)
+RUN echo "Installing build dependencies..." && \
+    npm install --save-optional better-sqlite3 --legacy-peer-deps || echo "better-sqlite3 installation skipped"
+
 # Build the Nuxt application with verbose output
 RUN echo "Starting Nuxt build..." && \
     NODE_ENV=production npm run build && \
     echo "Build completed. Checking for .output..." && \
-    ls -la /app/ | head -20 && \
     echo "Looking for .output directory:" && \
-    find /app -name ".output" -type d 2>/dev/null || echo "No .output found" && \
-    echo "Checking current directory contents:" && \
-    ls -la /app/.output 2>&1 || (echo ".output directory not found!" && exit 1)
+    find /app -name ".output" -type d 2>/dev/null && \
+    if [ -d "/app/app/.output" ]; then \
+        echo "Found .output in /app/app/.output, moving to /app/.output" && \
+        mv /app/app/.output /app/.output && \
+        echo ".output moved successfully"; \
+    elif [ -d "/app/.output" ]; then \
+        echo ".output found in root /app/.output"; \
+    else \
+        echo "ERROR: .output not found in expected locations!" && \
+        find /app -type d -name ".output" 2>/dev/null && \
+        exit 1; \
+    fi
 
 # Verify .output directory exists and show structure
-RUN echo "Checking for .output after build..." && \
-    ls -la /app/ && \
+RUN echo "Final verification of .output..." && \
     if [ ! -d "/app/.output" ]; then \
-        echo "ERROR: .output directory not found after build!" && \
-        echo "Checking if build completed..." && \
-        ls -la /app/ | grep -E "\.(nuxt|data|output)" && \
-        echo "Trying to list .output even if it doesn't exist:" && \
-        ls -la /app/.output 2>&1 || true && \
+        echo "ERROR: .output directory not found!" && \
+        find /app -name ".output" -type d 2>/dev/null && \
         exit 1; \
     fi && \
     echo ".output structure:" && \
-    ls -la /app/.output/
+    ls -la /app/.output/ && \
+    echo ".output/server structure:" && \
+    ls -la /app/.output/server/ 2>&1 || echo "No server directory"
 
 # Production image with Node.js to run Nuxt SSR
 FROM base AS runner
