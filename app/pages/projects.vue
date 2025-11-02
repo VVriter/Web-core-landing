@@ -1,16 +1,5 @@
 <template>
   <div class="projects-page">
-    <section class="projects-hero">
-      <div class="container">
-        <div class="hero-content">
-          <h1 class="hero-title">Наші проекти</h1>
-          <p class="hero-description">
-            Реальні проекти, які ми створили для наших клієнтів
-          </p>
-        </div>
-      </div>
-    </section>
-
     <PortfolioSection />
   </div>
 </template>
