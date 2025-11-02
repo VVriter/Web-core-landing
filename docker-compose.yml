@@ -1,31 +1,27 @@
 version: '3.8'
 
 services:
-  # Nuxt application
   nuxt-app:
     build:
       context: .
       dockerfile: Dockerfile
-      target: production
     container_name: webcore-nuxt-app
     restart: unless-stopped
-    networks:
-      - webcore-network
     environment:
       - NODE_ENV=production
       - PORT=3000
       - HOST=0.0.0.0
-    volumes:
-      # Optional: for logs
-      - ./logs:/app/logs
+    networks:
+      - webcore-network
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/ || exit 1"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
+    labels:
+      - "traefik.enable=false"
 
-  # Nginx reverse proxy
   nginx:
     image: nginx:alpine
     container_name: webcore-nginx
@@ -40,16 +36,17 @@ services:
     networks:
       - webcore-network
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:1111/health || exit 1"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:1111/health"]
       interval: 30s
       timeout: 10s
       retries: 3
+    labels:
+      - "traefik.enable=false"
 
 networks:
   webcore-network:
     driver: bridge
 
 volumes:
-  logs:
+  webcore_logs:
     driver: local
-
