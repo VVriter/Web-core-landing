@@ -1,0 +1,22 @@
+{
+  "name": "WebCore Agency",
+  "short_name": "WebCore",
+  "description": "Професійні веб-послуги для вашого бізнесу",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#8B5CF6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "lang": "uk",
+  "dir": "ltr"
+}
+

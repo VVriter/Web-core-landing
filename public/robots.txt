@@ -1,2 +1,24 @@
 User-Agent: *
-Disallow:
+Allow: /
+
+# Sitemap
+Sitemap: https://web-core.agency/sitemap.xml
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /private/
+Disallow: /*.json$
+Disallow: /api/
+
+# Allow important files
+Allow: /favicon.ico
+Allow: /favicon.svg
+Allow: /robots.txt
+Allow: /sitemap.xml
+
+# Crawl-delay for aggressive bots
+User-Agent: AhrefsBot
+Crawl-Delay: 10
+
+User-Agent: SemrushBot
+Crawl-Delay: 10

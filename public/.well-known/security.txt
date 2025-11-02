@@ -1,0 +1,5 @@
+Contact: mailto:support@web-core.agency
+Expires: 2026-12-31T23:59:59.000Z
+Preferred-Languages: uk, en
+Canonical: https://web-core.agency/.well-known/security.txt
+
