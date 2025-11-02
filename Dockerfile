@@ -16,13 +16,19 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Prepare Nuxt (generates .nuxt directory)
-RUN echo "Preparing Nuxt..." && \
-    npm run postinstall || npx nuxt prepare || true
-
 # Install better-sqlite3 for @nuxt/content (or skip if not needed)
 RUN echo "Installing build dependencies..." && \
     npm install --save-optional better-sqlite3 --legacy-peer-deps || echo "better-sqlite3 installation skipped"
+
+# Prepare Nuxt (generates .nuxt directory with all necessary files)
+# Using npm run postinstall which calls "nuxt prepare"
+RUN echo "Preparing Nuxt..." && \
+    npm run postinstall && \
+    echo "Verifying .nuxt directory structure:" && \
+    ls -la /app/.nuxt/ 2>&1 || echo ".nuxt directory not created" && \
+    echo "Checking for tsconfig files:" && \
+    ls -la /app/.nuxt/tsconfig*.json 2>&1 && \
+    echo "All tsconfig files present, proceeding with build..."
 
 # Build the Nuxt application with verbose output
 RUN echo "Starting Nuxt build..." && \
