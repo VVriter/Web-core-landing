@@ -52,7 +52,7 @@
                 <p class="subtitle">Дізнайтеся про наші переваги</p>
               </div>
               
-              <div class="cta-section">
+              <div class="cta-section" style="transform: translateY(-20px);">
                 <div class="swipe-indicator">
                   <Icon name="mdi:gesture-swipe-right" size="lg" />
                   <span>Swipe to explore</span>
@@ -719,15 +719,17 @@ useHead({
 }
 
 /* Animations */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 @keyframes logoGlow {
   0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5)); }
   50% { filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.8)); }
 }
 
-@keyframes ringPulse {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
-  50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.6; }
-}
 
 @keyframes swipePulse {
   0%, 100% { opacity: 0.8; transform: translateX(0); }
@@ -787,7 +789,12 @@ useHead({
   }
   
   .brand-name {
-    font-size: 2.5rem;
+    font-size: 2.25rem;
+  }
+  
+  .logo-container {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
   }
   
   .advantage-title {
@@ -827,7 +834,17 @@ useHead({
   }
   
   .brand-name {
-    font-size: 2rem;
+    font-size: 1.875rem;
+  }
+  
+  .logo-container {
+    margin-bottom: 0.75rem;
+    padding: 0.5rem;
+  }
+  
+  .main-logo {
+    width: 100px !important;
+    height: 100px !important;
   }
   
   .advantage-title {
