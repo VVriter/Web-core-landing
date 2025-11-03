@@ -55,13 +55,6 @@
                 </h2>
                 <p class="subtitle">Дізнайтеся про наші переваги</p>
             </div>
-
-              <div class="cta-section" style="transform: translateY(-20px);">
-                <div class="swipe-indicator">
-                  <Icon name="mdi:gesture-swipe-right" size="lg" />
-                  <span>Swipe to explore</span>
-                    </div>
-                  </div>
                       </div>
                       </div>
                     </div>
@@ -106,13 +99,6 @@
                     <span>{{ feature }}</span>
         </div>
       </div>
-    </div>
-
-              <div class="cta-footer">
-                <button class="cta-btn" @click="openContactModal">
-                  <Icon name="mdi:send" size="md" />
-                  Консультація
-        </button>
               </div>
               </div>
             </div>
@@ -137,9 +123,6 @@
 <script setup lang="ts">
 import Icon from '../../components/Icon.vue'
 import WebCoreLogo from '../../components/WebCoreLogo.vue'
-import { useModal } from '../../composables/useModal'
-
-const { openModal } = useModal()
 
 // Advantage stories data (without title story)
 const advantageStories = [
@@ -228,10 +211,6 @@ const advantageStories = [
     ]
   }
 ]
-
-const openContactModal = () => {
-  openModal('contact')
-}
 
 // Download all stories as images in ZIP
 const downloadAllStories = async () => {
@@ -546,7 +525,7 @@ useHead({
 
 .story-frame {
   width: 300px;
-  height: 600px;
+  height: 533px; /* 9:16 aspect ratio (300 * 16 / 9 = 533) */
   border-radius: 24px;
   overflow: hidden;
   position: relative;
@@ -657,7 +636,7 @@ useHead({
 .story-content {
   position: relative;
   z-index: 1;
-  padding: 1.25rem 1rem;
+  padding: 1rem;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -669,7 +648,7 @@ useHead({
 /* Title Story Styles */
 .logo-section {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .logo-container {
@@ -677,8 +656,8 @@ useHead({
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 1.5rem;
-  padding: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
 }
 
 .main-logo {
@@ -738,22 +717,23 @@ useHead({
 
 .cta-section {
   text-align: center;
+  flex-shrink: 0;
+  margin-top: auto;
 }
 
 .swipe-indicator {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  font-size: 0.9rem;
+  gap: 0.5rem;
+  font-size: 0.85rem;
   opacity: 0.9;
   animation: swipePulse 2s ease-in-out infinite;
   background: rgba(255, 255, 255, 0.1);
-  padding: 0.75rem 1.5rem;
-  border-radius: 25px;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
-  margin-bottom: 30px;
 }
 
 /* Floating Elements for Title */
@@ -807,7 +787,7 @@ useHead({
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .advantage-icon {
@@ -827,19 +807,21 @@ useHead({
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .advantage-title {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1.15;
   margin: 0;
 }
 
 .advantage-description {
-  font-size: 1rem;
-  line-height: 1.3;
+  font-size: 0.95rem;
+  line-height: 1.25;
   opacity: 0.9;
   margin: 0;
 }
@@ -891,37 +873,6 @@ useHead({
   flex-shrink: 0;
 }
 
-.cta-footer {
-  text-align: center;
-  flex-shrink: 0;
-  margin-top: auto;
-}
-
-.cta-btn {
-  background: rgba(255, 255, 255, 0.2);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50px;
-  color: white;
-  padding: 0.75rem 1.5rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  margin: 0 auto;
-  white-space: nowrap;
-  min-width: fit-content;
-}
-
-.cta-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: rgba(255, 255, 255, 0.5);
-  transform: translateY(-2px);
-}
 
 /* Download Instructions */
 .download-instructions {
@@ -1030,7 +981,7 @@ useHead({
   
   .story-frame {
     width: 280px;
-    height: 580px;
+    height: 498px; /* 9:16 aspect ratio (280 * 16 / 9 = 498) */
   }
   
   .story-content {
@@ -1039,11 +990,6 @@ useHead({
   
   .advantage-content {
     gap: 0.75rem;
-  }
-  
-  .cta-btn {
-    padding: 0.625rem 1.25rem;
-    font-size: 0.85rem;
   }
   
   .download-instructions {
@@ -1088,7 +1034,7 @@ useHead({
   
   .story-frame {
     width: 260px;
-    height: 520px;
+    height: 462px; /* 9:16 aspect ratio (260 * 16 / 9 = 462) */
   }
   
   .story-label {
