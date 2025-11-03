@@ -457,9 +457,7 @@ const getParticleStyle = (index: number) => {
 }
 
 .step-card:hover {
-  transform: translateY(-8px);
   border-color: var(--color-border-accent);
-  box-shadow: 0 20px 60px rgba(139, 92, 246, 0.2);
 }
 
 .step-number {

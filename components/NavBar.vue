@@ -44,7 +44,7 @@
         
         <button class="cta-button primary" @click="openModal('contact')">
           <Icon name="mdi:rocket-launch" size="md" class="cta-icon" />
-          Зв'язатися з нами
+          Безкоштовна консультація
         </button>
       </div>
 
@@ -91,7 +91,7 @@
             
             <button class="cta-button primary mobile" @click="openModal('contact'); closeMobileMenu()">
               <Icon name="mdi:rocket-launch" size="md" class="cta-icon" />
-              Зв'язатися з нами
+              Безкоштовна консультація
             </button>
           </div>
         </div>
