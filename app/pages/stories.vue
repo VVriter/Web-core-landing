@@ -4,6 +4,10 @@
     <div class="page-header">
       <h1 class="page-title">Instagram Stories - WebCore Agency</h1>
       <p class="page-description">Креативи для СММ: "Чому обирають WebCore"</p>
+      <button class="download-all-btn" @click="downloadAllStories">
+        <Icon name="mdi:download-multiple" size="lg" />
+        Завантажити всі Stories (ZIP)
+      </button>
       </div>
 
       <!-- Stories Grid -->
@@ -229,6 +233,203 @@ const openContactModal = () => {
   openModal('contact')
 }
 
+// Download all stories as images in ZIP
+const downloadAllStories = async () => {
+  try {
+    // Динамічно імпортуємо необхідні бібліотеки
+    const [{ default: html2canvas }, { default: JSZip }] = await Promise.all([
+      import('html2canvas' as any),
+      import('jszip' as any)
+    ])
+    
+    const zip = new JSZip()
+    const stories = document.querySelectorAll('.story-frame .story')
+    
+    // Показуємо індикатор завантаження
+    const button = document.querySelector('.download-all-btn') as HTMLButtonElement
+    if (button) {
+      button.disabled = true
+      button.innerHTML = '<span class="spinner"></span> Генерація картинок...'
+    }
+    
+    // Генеруємо картинки для кожної story
+    for (let i = 0; i < stories.length; i++) {
+      const story = stories[i] as HTMLElement
+      
+      // Оновлюємо прогрес
+      if (button) {
+        const progress = Math.round(((i + 1) / stories.length) * 100)
+        button.innerHTML = `<span class="spinner"></span> Генерація ${progress}%...`
+      }
+      
+      // Клонуємо елемент для кращого рендерингу
+      const clonedStory = story.cloneNode(true) as HTMLElement
+      
+      // Створюємо контейнер для правильного розміру
+      const container = document.createElement('div')
+      container.style.position = 'fixed'
+      container.style.top = '-9999px'
+      container.style.left = '-9999px'
+      container.style.width = '1080px'
+      container.style.height = '1920px'
+      container.style.background = '#000'
+      container.style.zIndex = '-9999'
+      
+      // Налаштовуємо клонований елемент
+      clonedStory.style.width = '100%'
+      clonedStory.style.height = '100%'
+      clonedStory.style.transform = 'scale(3.6)' // Масштабуємо з 300px до 1080px
+      clonedStory.style.transformOrigin = 'top left'
+      
+      container.appendChild(clonedStory)
+      document.body.appendChild(container)
+      
+      // Замінюємо SVG іконки на inline SVG для кращого рендерингу
+      const icons = clonedStory.querySelectorAll('svg')
+      icons.forEach(icon => {
+        if (icon.parentElement?.tagName === 'ICON-STUB') {
+          // Конвертуємо Icon компонент в SVG
+          const svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+          svgElement.setAttribute('viewBox', '0 0 24 24')
+          svgElement.setAttribute('width', icon.getAttribute('width') || '24')
+          svgElement.setAttribute('height', icon.getAttribute('height') || '24')
+          svgElement.innerHTML = icon.innerHTML
+          icon.parentElement.replaceWith(svgElement)
+        }
+      })
+      
+      // Чекаємо завантаження всіх ресурсів
+      await new Promise(resolve => setTimeout(resolve, 500))
+      
+      // Створюємо canvas з story
+      const canvas = await html2canvas(container, {
+        width: 1080,
+        height: 1920,
+        windowWidth: 1080,
+        windowHeight: 1920,
+        scale: 1,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: null, // Прозорий фон, оскільки контейнер вже має чорний
+        logging: false,
+        foreignObjectRendering: true, // Для кращого рендерингу SVG
+        imageTimeout: 15000,
+        onclone: (clonedDoc: Document) => {
+          // Додаткова обробка клонованого документа для іконок
+          const clonedIcons = clonedDoc.querySelectorAll('[data-icon]')
+          clonedIcons.forEach((icon: any) => {
+            icon.style.display = 'inline-block'
+            icon.style.visibility = 'visible'
+          })
+        }
+      })
+      
+      // Видаляємо контейнер
+      document.body.removeChild(container)
+      
+      // Конвертуємо canvas в blob
+      const blob = await new Promise<Blob>((resolve) => {
+        canvas.toBlob((blob: Blob | null) => {
+          if (blob) resolve(blob)
+        }, 'image/png', 0.95)
+      })
+      
+      // Генеруємо ім'я файлу
+      let filename: string
+      if (i === 0) {
+        filename = '01-title-story.png'
+      } else {
+        const storyTitle = advantageStories[i - 1]?.title || `story-${i}`
+        const cleanTitle = storyTitle.toLowerCase()
+          .replace(/[^\wа-яіїєґ\s-]/g, '')
+          .replace(/\s+/g, '-')
+        filename = `${String(i + 1).padStart(2, '0')}-${cleanTitle}.png`
+      }
+      
+      // Додаємо файл до архіву
+      zip.file(filename, blob)
+    }
+    
+    // Додаємо README файл з інструкціями
+    const readme = `WebCore Agency - Instagram Stories Pack
+========================================
+
+Цей пакет містить 7 Instagram Stories для промоції WebCore Agency.
+
+Файли:
+------
+01-title-story.png - Титульна story
+02-швидкий-старт-проєктів.png - Швидкий старт проєктів
+03-гарантія-якості.png - Гарантія якості  
+04-результати-що-видно.png - Результати що видно
+05-команда-експертів.png - Команда експертів
+06-швидка-підтримка.png - Швидка підтримка
+07-прозора-ціна.png - Прозора ціна
+
+Технічні характеристики:
+------------------------
+- Розмір: 1080x1920px (9:16)
+- Формат: PNG з високою якістю
+- Готові для публікації в Instagram
+
+Рекомендації:
+------------
+1. Публікуйте stories послідовно (1-7)
+2. Додайте інтерактивні елементи в Instagram:
+   - Опитування
+   - Кнопки з посиланнями
+   - Стікери
+3. Використовуйте хештеги: #webcore #webdevelopment #digitalagency
+
+Контакти:
+---------
+Веб-сайт: web-core.agency
+Телефон: +380777707232
+Email: support@web-core.agency
+
+© 2024 WebCore Agency. Всі права захищені.
+`
+    
+    zip.file('README.txt', readme)
+    
+    // Генеруємо ZIP архів
+    if (button) {
+      button.innerHTML = '<span class="spinner"></span> Створення архіву...'
+    }
+    
+    const content = await zip.generateAsync({ type: 'blob' })
+    
+    // Створюємо посилання для завантаження
+    const url = URL.createObjectURL(content)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = 'webcore-instagram-stories.zip'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+    
+    // Відновлюємо кнопку
+    if (button) {
+      button.disabled = false
+      button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M5 20h14v-2H5m14-9h-3V3H8v6H5l7 7z"/></svg> Завантажити всі Stories (ZIP)'
+    }
+    
+    console.log('Stories downloaded successfully!')
+    
+  } catch (error) {
+    console.error('Error downloading stories:', error)
+    alert('Помилка при завантаженні stories. Спробуйте ще раз.')
+    
+    // Відновлюємо кнопку при помилці
+    const button = document.querySelector('.download-all-btn') as HTMLButtonElement
+    if (button) {
+      button.disabled = false
+      button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M5 20h14v-2H5m14-9h-3V3H8v6H5l7 7z"/></svg> Завантажити всі Stories (ZIP)'
+    }
+  }
+}
+
 // SEO
 useHead({
   title: 'Instagram Stories - WebCore Agency',
@@ -272,7 +473,57 @@ useHead({
 .page-description {
   font-size: 1.125rem;
   color: var(--color-text-secondary);
-  margin: 0;
+  margin: 0 0 1.5rem 0;
+}
+
+/* Download All Button */
+.download-all-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3);
+}
+
+.download-all-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 48px rgba(139, 92, 246, 0.4);
+  background: linear-gradient(135deg, var(--color-accent-secondary), var(--color-accent-tertiary));
+}
+
+.download-all-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.download-all-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Spinner animation */
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* Stories Grid */
@@ -301,6 +552,7 @@ useHead({
   position: relative;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
+  background: #000;
 }
 
 .story-frame:hover {
@@ -405,12 +657,13 @@ useHead({
 .story-content {
   position: relative;
   z-index: 1;
-  padding: 1.5rem 1.25rem;
+  padding: 1.25rem 1rem;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   color: white;
+  overflow: hidden;
 }
 
 /* Title Story Styles */
@@ -500,6 +753,7 @@ useHead({
   border-radius: 25px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
+  margin-bottom: 30px;
 }
 
 /* Floating Elements for Title */
@@ -639,6 +893,8 @@ useHead({
 
 .cta-footer {
   text-align: center;
+  flex-shrink: 0;
+  margin-top: auto;
 }
 
 .cta-btn {
@@ -646,16 +902,16 @@ useHead({
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 50px;
   color: white;
-  padding: 0.875rem 1.75rem;
-  font-size: 0.95rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
   margin: 0 auto;
   white-space: nowrap;
   min-width: fit-content;
@@ -774,7 +1030,20 @@ useHead({
   
   .story-frame {
     width: 280px;
-    height: 560px;
+    height: 580px;
+  }
+  
+  .story-content {
+    padding: 1rem 0.875rem;
+  }
+  
+  .advantage-content {
+    gap: 0.75rem;
+  }
+  
+  .cta-btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.85rem;
   }
   
   .download-instructions {
