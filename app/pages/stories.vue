@@ -4,10 +4,10 @@
     <div class="page-header">
       <h1 class="page-title">Instagram Stories - WebCore Agency</h1>
       <p class="page-description">Креативи для СММ: "Чому обирають WebCore"</p>
-    </div>
+      </div>
 
-    <!-- Stories Grid -->
-    <div class="stories-grid">
+      <!-- Stories Grid -->
+      <div class="stories-grid">
       <!-- Title Story -->
       <div class="story-item">
         <div class="story-frame">
@@ -17,52 +17,52 @@
               <div class="floating-elements">
                 <div class="floating-icon icon-1">
                   <Icon name="mdi:rocket-launch" size="xl" />
-                </div>
+                    </div>
                 <div class="floating-icon icon-2">
                   <Icon name="mdi:star" size="lg" />
-                </div>
+                    </div>
                 <div class="floating-icon icon-3">
                   <Icon name="mdi:trending-up" size="lg" />
-                </div>
+                  </div>
                 <div class="floating-icon icon-4">
                   <Icon name="mdi:shield-check" size="lg" />
-                </div>
+                      </div>
                 <div class="floating-icon icon-5">
                   <Icon name="mdi:lightning-bolt" size="lg" />
-                </div>
+                    </div>
               </div>
             </div>
-            
-            <div class="story-content">
+
+                  <div class="story-content">
               <div class="logo-section">
                 <div class="logo-container">
                   <WebCoreLogo :animated="true" :size="120" animationType="full" class="main-logo" />
-                </div>
+                      </div>
                 <h1 class="brand-name">
                   <span class="web-text">Web</span><span class="core-text">Core</span>
                 </h1>
                 <p class="brand-tagline">Digital Agency</p>
-              </div>
-              
+            </div>
+
               <div class="title-section">
                 <h2 class="main-title">
                   Чому обирають
                   <span class="highlight-text">WebCore?</span>
                 </h2>
                 <p class="subtitle">Дізнайтеся про наші переваги</p>
-              </div>
-              
+            </div>
+
               <div class="cta-section" style="transform: translateY(-20px);">
                 <div class="swipe-indicator">
                   <Icon name="mdi:gesture-swipe-right" size="lg" />
                   <span>Swipe to explore</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+                    </div>
+                  </div>
+                      </div>
+                      </div>
+                    </div>
         <div class="story-label">Story 1/7 - Титульна</div>
-      </div>
+            </div>
 
       <!-- Advantage Stories -->
       <div 
@@ -75,16 +75,16 @@
             <div class="story-background" :class="`bg-${index + 1}`">
               <div class="gradient-overlay" :class="`overlay-${index + 1}`"></div>
               <div class="pattern-overlay"></div>
-            </div>
+                    </div>
             
-            <div class="story-content">
+                  <div class="story-content">
               <div class="advantage-header">
                 <div class="advantage-icon">
                   <Icon :name="story.icon" size="xl" />
-                </div>
+                      </div>
                 <div class="advantage-number">0{{ index + 1 }}</div>
-              </div>
-              
+            </div>
+
               <div class="advantage-content">
                 <h3 class="advantage-title">{{ story.title }}</h3>
                 <p class="advantage-description">{{ story.description }}</p>
@@ -93,29 +93,29 @@
                   <div class="stat-item" v-for="(stat, statIndex) in story.stats" :key="statIndex">
                     <div class="stat-number">{{ stat.number }}</div>
                     <div class="stat-label">{{ stat.label }}</div>
-                  </div>
-                </div>
-                
+              </div>
+            </div>
+
                 <div class="advantage-features" v-if="story.features">
                   <div class="feature-item" v-for="(feature, featureIndex) in story.features" :key="featureIndex">
                     <Icon name="mdi:check-circle" size="md" />
                     <span>{{ feature }}</span>
-                  </div>
-                </div>
-              </div>
-              
+        </div>
+      </div>
+    </div>
+
               <div class="cta-footer">
                 <button class="cta-btn" @click="openContactModal">
                   <Icon name="mdi:send" size="md" />
-                  Замовити консультацію
-                </button>
+                  Консультація
+        </button>
+              </div>
               </div>
             </div>
-          </div>
-        </div>
+                </div>
         <div class="story-label">Story {{ index + 2 }}/7 - {{ story.title }}</div>
-      </div>
-    </div>
+            </div>
+          </div>
 
     <!-- Download Instructions -->
     <div class="download-instructions">
@@ -646,8 +646,8 @@ useHead({
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 50px;
   color: white;
-  padding: 1rem 2rem;
-  font-size: 1rem;
+  padding: 0.875rem 1.75rem;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -657,6 +657,8 @@ useHead({
   justify-content: center;
   gap: 0.5rem;
   margin: 0 auto;
+  white-space: nowrap;
+  min-width: fit-content;
 }
 
 .cta-btn:hover {
