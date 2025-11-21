@@ -44,7 +44,7 @@
         
         <button class="cta-button primary" @click="openModal('contact')">
           <Icon name="mdi:rocket-launch" size="md" class="cta-icon" />
-          Безкоштовна консультація
+          Зв'язатися зараз
         </button>
       </div>
 
@@ -91,7 +91,7 @@
             
             <button class="cta-button primary mobile" @click="openModal('contact'); closeMobileMenu()">
               <Icon name="mdi:rocket-launch" size="md" class="cta-icon" />
-              Безкоштовна консультація
+              Зв'язатися зараз
             </button>
           </div>
         </div>
@@ -115,7 +115,7 @@ const navItems = [
   { name: 'Послуги', href: '/services', icon: 'mdi:cogs' },
   { name: 'Проекти', href: '/projects', icon: 'mdi:briefcase' },
   { name: 'Про нас', href: '/about', icon: 'mdi:account-group' },
-  { name: 'Блог', href: '/blog', icon: 'mdi:post' },
+  // { name: 'Блог', href: '/blog', icon: 'mdi:post' },
   { name: 'Контакти', href: '/contact', icon: 'mdi:email' }
 ]
 
@@ -433,9 +433,6 @@ onMounted(() => {
 
 .nav-link.active {
   color: var(--color-accent-primary);
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(217, 70, 239, 0.1));
-  border: 1px solid var(--color-border-accent);
-  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.2);
 }
 
 .nav-link.active::after {

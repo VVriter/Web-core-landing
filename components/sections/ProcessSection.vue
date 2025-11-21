@@ -547,12 +547,14 @@ const getParticleStyle = (index: number) => {
   color: var(--color-text-primary);
   margin-bottom: 0.75rem;
   line-height: 1.3;
+  user-select: none;
 }
 
 .step-description {
   color: var(--color-text-secondary);
   line-height: 1.6;
   font-size: 0.875rem;
+  user-select: none;
 }
 
 /* Floating Particles */

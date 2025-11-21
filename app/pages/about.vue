@@ -28,30 +28,22 @@
             5 років досвіду в розробці веб-рішень для бізнесу. Більше 200 успішних проєктів. 
             Команда з 12 експертів, які знають, як перетворити ваші ідеї на прибуткові IT-рішення.
           </p>
-          <div class="hero-stats">
-            <div class="stat-item">
-              <div class="stat-number">12</div>
-              <div class="stat-label">Експертів</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number">200+</div>
-              <div class="stat-label">Проєктів</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number">95%</div>
-              <div class="stat-label">Задоволених клієнтів</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number">24/7</div>
-              <div class="stat-label">Підтримка</div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
 
     <!-- Mission Section -->
     <section class="mission-section">
+      <!-- Animated Background -->
+      <div class="mission-background">
+        <div class="floating-shapes">
+          <div class="shape shape-1"></div>
+          <div class="shape shape-2"></div>
+          <div class="shape shape-3"></div>
+        </div>
+        <div class="grid-overlay"></div>
+      </div>
+      
       <div class="container">
         <div class="mission-content">
           <div class="mission-text">
@@ -59,7 +51,7 @@
               <Icon name="mdi:target" class="badge-icon" />
               Наша місія
             </div>
-            <h2 class="section-title">Допомагаємо бізнесу заробляти більше в інтернеті</h2>
+            <h2 class="section-title">Допомагаємо бізнесу <span class="gradient-text">заробляти більше</span> в інтернеті</h2>
             <p class="section-description">
               Ми не просто розробляємо сайти — ми створюємо цифрові інструменти, які автоматизують 
               ваш бізнес, залучають нових клієнтів та збільшують прибуток. Кожен наш проєкт — це 
@@ -67,28 +59,61 @@
             </p>
             <div class="mission-features">
               <div class="feature-item">
-                <Icon name="mdi:check-circle" class="feature-icon" />
-                <span>Збільшення конверсії сайту на 40-60%</span>
+                <div class="feature-icon-wrapper">
+                  <Icon name="mdi:trending-up" class="feature-icon" />
+                </div>
+                <div class="feature-content">
+                  <h4 class="feature-title">Збільшення конверсії</h4>
+                  <span class="feature-description">на 40-60% після оптимізації</span>
+                </div>
               </div>
               <div class="feature-item">
-                <Icon name="mdi:check-circle" class="feature-icon" />
-                <span>Автоматизація бізнес-процесів</span>
+                <div class="feature-icon-wrapper">
+                  <Icon name="mdi:cog-clockwise" class="feature-icon" />
+                </div>
+                <div class="feature-content">
+                  <h4 class="feature-title">Автоматизація процесів</h4>
+                  <span class="feature-description">економія часу та ресурсів</span>
+                </div>
               </div>
               <div class="feature-item">
-                <Icon name="mdi:check-circle" class="feature-icon" />
-                <span>Зменшення витрат на обслуговування</span>
+                <div class="feature-icon-wrapper">
+                  <Icon name="mdi:cash-minus" class="feature-icon" />
+                </div>
+                <div class="feature-content">
+                  <h4 class="feature-title">Зменшення витрат</h4>
+                  <span class="feature-description">на обслуговування до 50%</span>
+                </div>
               </div>
               <div class="feature-item">
-                <Icon name="mdi:check-circle" class="feature-icon" />
-                <span>Масштабування бізнесу без додаткових витрат</span>
+                <div class="feature-icon-wrapper">
+                  <Icon name="mdi:rocket-launch" class="feature-icon" />
+                </div>
+                <div class="feature-content">
+                  <h4 class="feature-title">Масштабування</h4>
+                  <span class="feature-description">без додаткових витрат</span>
+                </div>
               </div>
             </div>
           </div>
           <div class="mission-visual">
-            <div class="visual-card">
-              <Icon name="mdi:trending-up" class="visual-icon" />
-              <h4>Ріст прибутку</h4>
-              <p>Наші клієнти збільшують прибуток в середньому на 150% після запуску проєкту</p>
+            <div class="visual-cards">
+              <div class="visual-card main-card">
+                <div class="card-glow"></div>
+                <Icon name="mdi:trending-up" class="visual-icon" />
+                <h4 class="card-title">Ріст прибутку</h4>
+                <p class="card-description">Допомагаємо клієнтам ефективно підвищувати прибуток після запуску проєкту</p>
+              </div>
+              <div class="visual-card secondary-card">
+                <Icon name="mdi:clock-fast" class="visual-icon-small" />
+                <h5 class="card-title-small">Швидкий запуск</h5>
+                <p class="card-description-small">1-6 тижнів</p>
+              </div>
+              <div class="visual-card secondary-card">
+                <Icon name="mdi:shield-check" class="visual-icon-small" />
+                <h5 class="card-title-small">Гарантія якості</h5>
+                <p class="card-description-small">60 днів</p>
+              </div>
             </div>
           </div>
         </div>
@@ -158,9 +183,6 @@
         </div>
       </div>
     </section>
-
-    <!-- Process Section -->
-    <ProcessSection />
 
     <!-- CTA Section -->
     <section class="about-cta">
@@ -293,14 +315,6 @@ const teamMembers = [
     skills: ['Vue.js', 'Node.js', 'PostgreSQL', 'AWS', 'DevOps']
   },
   {
-    id: 'maria-petrenko',
-    name: 'Кіріл Сопічев',
-    role: 'Backend розробник',
-    description: 'Розробка серверної логіки та API. Спеціалізується на продуктивних рішеннях для високонавантажених систем.',
-    icon: 'mdi:database',
-    skills: ['Python', 'Django', 'FastAPI', 'MongoDB', 'Elasticsearch']
-  },
-  {
     id: 'anna-shevchenko',
     name: 'Анна Гупало',
     role: 'UI/UX дизайнер',
@@ -308,54 +322,6 @@ const teamMembers = [
     icon: 'mdi:palette',
     skills: ['Figma', 'UX Research', 'Prototyping', 'Design Systems', 'A/B Testing']
   },
-  {
-    id: 'kateryna-bondar',
-    name: 'Катерина Бондар',
-    role: 'Project Manager',
-    description: 'Координація проєктів, комунікація з клієнтами та контроль якості. Гарантує дотримання термінів та бюджету.',
-    icon: 'mdi:clipboard-check',
-    skills: ['Agile', 'Scrum', 'Jira', 'Communication', 'Quality Control']
-  },
-  {
-    id: 'sergiy-melnyk',
-    name: 'Сергій Мельник',
-    role: 'DevOps інженер',
-    description: 'Налаштування серверів, CI/CD, моніторинг та безпека. Забезпечує стабільну роботу та масштабування проєктів.',
-    icon: 'mdi:server',
-    skills: ['AWS', 'Docker', 'Kubernetes', 'CI/CD', 'Monitoring']
-  },
-  {
-    id: 'viktor-kovalchuk',
-    name: 'Віктор Ковальчук',
-    role: 'Frontend розробник',
-    description: 'Створення сучасних та швидких користувацьких інтерфейсів. Спеціалізується на React та Vue.js екосистемах.',
-    icon: 'mdi:monitor',
-    skills: ['React', 'Vue.js', 'TypeScript', 'Tailwind CSS', 'Webpack']
-  },
-  {
-    id: 'oksana-lysenko',
-    name: 'Оксана Лисенко',
-    role: 'QA тестувальник',
-    description: 'Забезпечення якості програмного забезпечення через ретельне тестування. Автоматизація тестових процесів.',
-    icon: 'mdi:bug',
-    skills: ['Manual Testing', 'Automation', 'Selenium', 'Cypress', 'Bug Tracking']
-  },
-  {
-    id: 'andriy-petriv',
-    name: 'Андрій Петрів',
-    role: 'Business Analyst',
-    description: 'Аналіз бізнес-процесів та вимог. Допомагає клієнтам сформулювати технічне завдання та оптимізувати рішення.',
-    icon: 'mdi:chart-line',
-    skills: ['Business Analysis', 'Requirements', 'Process Optimization', 'Documentation']
-  },
-  {
-    id: 'julia-tkachenko',
-    name: 'Юлія Ткаченко',
-    role: 'Content Manager',
-    description: 'Створення та управління контентом для веб-сайтів. SEO-оптимізація текстів та контент-маркетингові стратегії.',
-    icon: 'mdi:file-document-edit',
-    skills: ['Content Writing', 'SEO', 'WordPress', 'Content Strategy', 'Copywriting']
-  }
 ]
 
 
@@ -385,7 +351,6 @@ const getParticleStyle = (index: number) => {
 
 .about-page {
   min-height: 100vh;
-  padding-top: 70px;
   background: var(--color-bg-primary);
 }
 
@@ -498,7 +463,6 @@ const getParticleStyle = (index: number) => {
   font-weight: 600;
   color: var(--color-accent-primary);
   margin-bottom: 2rem;
-  animation: badgeFloat 3s ease-in-out infinite;
 }
 
 @keyframes badgeFloat {
@@ -506,9 +470,6 @@ const getParticleStyle = (index: number) => {
   50% { transform: translateY(-8px); }
 }
 
-.badge-icon {
-  animation: iconRotate 4s linear infinite;
-}
 
 @keyframes iconRotate {
   from { transform: rotate(0deg); }
@@ -578,6 +539,83 @@ const getParticleStyle = (index: number) => {
 .mission-section {
   padding: 5rem 0;
   background: var(--color-bg-secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+.mission-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+.floating-shapes {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.3;
+  animation: shapeFloat 20s ease-in-out infinite;
+}
+
+.shape-1 {
+  width: 200px;
+  height: 200px;
+  background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+  top: 20%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.shape-2 {
+  width: 150px;
+  height: 150px;
+  background: linear-gradient(135deg, var(--color-accent-secondary), var(--color-accent-tertiary));
+  bottom: 30%;
+  right: 15%;
+  animation-delay: 7s;
+}
+
+.shape-3 {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, var(--color-accent-tertiary), var(--color-accent-primary));
+  top: 60%;
+  left: 50%;
+  animation-delay: 14s;
+}
+
+.grid-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(var(--color-border-primary) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-border-primary) 1px, transparent 1px);
+  background-size: 30px 30px;
+  opacity: 0.1;
+}
+
+@keyframes shapeFloat {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(30px, -30px) rotate(120deg);
+  }
+  66% {
+    transform: translate(-20px, 20px) rotate(240deg);
+  }
 }
 
 .mission-content {
@@ -585,6 +623,8 @@ const getParticleStyle = (index: number) => {
   grid-template-columns: 2fr 1fr;
   gap: 4rem;
   align-items: center;
+  position: relative;
+  z-index: 2;
 }
 
 .section-badge {
@@ -617,41 +657,126 @@ const getParticleStyle = (index: number) => {
 }
 
 .mission-features {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
 }
 
 .feature-item {
   display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border-primary);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-border-accent);
+  box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2);
+}
+
+.feature-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+  display: flex;
   align-items: center;
-  gap: 0.75rem;
-  font-size: 1rem;
-  color: var(--color-text-primary);
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .feature-icon {
-  color: var(--color-accent-primary);
-  flex-shrink: 0;
+  color: white;
+  width: 24px;
+  height: 24px;
+}
+
+.feature-content {
+  flex: 1;
+}
+
+.feature-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 0.25rem 0;
+}
+
+.feature-description {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
 }
 
 .mission-visual {
   display: flex;
   justify-content: center;
+  align-items: flex-start;
+}
+
+.visual-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 320px;
 }
 
 .visual-card {
   background: var(--color-card-bg);
   border: 1px solid var(--color-border-primary);
   border-radius: 20px;
-  padding: 2.5rem;
+  padding: 2rem;
   text-align: center;
-  max-width: 300px;
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
 }
 
-.visual-card:hover {
-  transform: translateY(-10px);
+.main-card {
+  padding: 2.5rem;
+  border: 2px solid var(--color-border-accent);
+  background: linear-gradient(135deg, var(--color-card-bg), rgba(139, 92, 246, 0.05));
+}
+
+.main-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(139, 92, 246, 0.3);
+}
+
+.secondary-card {
+  padding: 1.5rem;
+}
+
+.secondary-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-border-accent);
+  box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2);
+}
+
+.card-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.2), transparent 70%);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.main-card:hover .card-glow {
+  opacity: 1;
 }
 
 .visual-icon {
@@ -659,18 +784,57 @@ const getParticleStyle = (index: number) => {
   height: 60px;
   color: var(--color-accent-primary);
   margin: 0 auto 1.5rem;
+  position: relative;
+  z-index: 2;
 }
 
-.visual-card h4 {
+.visual-icon-small {
+  width: 32px;
+  height: 32px;
+  color: var(--color-accent-primary);
+  margin: 0 auto 1rem;
+}
+
+.card-title {
   font-size: 1.375rem;
   font-weight: 700;
   color: var(--color-text-primary);
   margin-bottom: 1rem;
+  position: relative;
+  z-index: 2;
 }
 
-.visual-card p {
+.card-title-small {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.card-stat {
+  font-size: 3rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.card-description {
   color: var(--color-text-secondary);
   line-height: 1.6;
+  font-size: 0.95rem;
+  position: relative;
+  z-index: 2;
+}
+
+.card-description-small {
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  margin: 0;
 }
 
 /* Values Section */
@@ -971,6 +1135,16 @@ const getParticleStyle = (index: number) => {
     gap: 3rem;
   }
   
+  .mission-features {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .shape-1, .shape-2, .shape-3 {
+    filter: blur(40px);
+    opacity: 0.2;
+  }
+  
   .values-grid {
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   }
@@ -996,6 +1170,36 @@ const getParticleStyle = (index: number) => {
   
   .section-title {
     font-size: 2rem;
+  }
+  
+  .mission-section {
+    padding: 3rem 0;
+  }
+  
+  .feature-item {
+    padding: 1.25rem;
+  }
+  
+  .feature-icon-wrapper {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .feature-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .visual-cards {
+    max-width: 280px;
+  }
+  
+  .main-card {
+    padding: 2rem;
+  }
+  
+  .card-stat {
+    font-size: 2.5rem;
   }
   
   .values-grid {
@@ -1027,6 +1231,53 @@ const getParticleStyle = (index: number) => {
   
   .hero-title {
     font-size: 2rem;
+  }
+  
+  .mission-section {
+    padding: 2.5rem 0;
+  }
+  
+  .mission-features {
+    margin-top: 1.5rem;
+  }
+  
+  .feature-item {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+  
+  .feature-icon-wrapper {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .feature-title {
+    font-size: 0.95rem;
+  }
+  
+  .feature-description {
+    font-size: 0.8rem;
+  }
+  
+  .visual-cards {
+    max-width: 260px;
+  }
+  
+  .main-card {
+    padding: 1.5rem;
+  }
+  
+  .card-stat {
+    font-size: 2rem;
+  }
+  
+  .card-title {
+    font-size: 1.125rem;
+  }
+  
+  .shape-1, .shape-2, .shape-3 {
+    filter: blur(30px);
+    opacity: 0.15;
   }
   
   .hero-description {

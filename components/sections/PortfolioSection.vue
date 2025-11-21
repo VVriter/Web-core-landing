@@ -84,13 +84,6 @@ const portfolioProjects = [
     tags: ['Агентство', 'Портфоліо', 'CMS']
   },
   {
-    title: 'ФГ АСТРА — Фермерське господарство',
-    description: 'Сайт-візитка для фермерського господарства з каталогом продукції та онлайн-замовленнями',
-    image: '/images/astra.png',
-    url: 'https://astra-farm.info/',
-    tags: ['Сайт-візитка']
-  },
-  {
     title: 'Lysium Network - Blockchain',
     description: 'Технологічна платформа для Proof-of-Usage блокчейн мережі з інтерактивними елементами',
     image: '/images/lysium.png',
@@ -103,13 +96,6 @@ const portfolioProjects = [
     image: '/images/fillip-capital.png',
     url: 'http://try.s1ngle.xyz/',
     tags: ['Web3', 'Venture Fund', 'Blockchain', 'Інвестиції']
-  },
-  {
-    title: 'РЕПЕТИЦІЙНА ТОЧКА',
-    description: 'Сучасний сайт для репетиційної студії з онлайн-бронюванням кімнат та інформацією про професійне обладнання та комфортні умови для музикантів',
-    image: '/images/rep-tochka.png',
-    url: 'https://reptochka.space/',
-    tags: ['Репетиційна студія', 'Бронювання', 'Музика', 'Онлайн-запис']
   }
 ]
 

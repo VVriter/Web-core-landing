@@ -31,7 +31,7 @@
 
           <!-- Services -->
           <div class="footer-section">
-            <h4 class="section-title">Послуги</h4>
+            <!-- <h4 class="section-title">Послуги</h4>
             <ul class="footer-links">
               <li><NuxtLink to="/services/web-development">Веб-розробка</NuxtLink></li>
               <li><NuxtLink to="/services/mobile-apps">Мобільні додатки</NuxtLink></li>
@@ -39,7 +39,7 @@
               <li><NuxtLink to="/services/ecommerce">E-commerce</NuxtLink></li>
               <li><NuxtLink to="/services/seo">SEO Оптимізація</NuxtLink></li>
               <li><NuxtLink to="/services/maintenance">Підтримка сайтів</NuxtLink></li>
-            </ul>
+            </ul> -->
           </div>
 
           <!-- Company -->
@@ -47,11 +47,11 @@
             <h4 class="section-title">Компанія</h4>
             <ul class="footer-links">
               <li><NuxtLink to="/about">Про нас</NuxtLink></li>
-              <li><NuxtLink to="/team">Наша команда</NuxtLink></li>
-              <li><NuxtLink to="/careers">Кар'єра</NuxtLink></li>
-              <li><NuxtLink to="/blog">Блог</NuxtLink></li>
-              <li><NuxtLink to="/case-studies">Кейси</NuxtLink></li>
-              <li><NuxtLink to="/testimonials">Відгуки</NuxtLink></li>
+              <!-- <li><NuxtLink to="/team">Наша команда</NuxtLink></li> -->
+              <!-- <li><NuxtLink to="/careers">Кар'єра</NuxtLink></li> -->
+              <!-- <li><NuxtLink to="/blog">Блог</NuxtLink></li> -->
+              <!-- <li><NuxtLink to="/case-studies">Кейси</NuxtLink></li> -->
+              <!-- <li><NuxtLink to="/testimonials">Відгуки</NuxtLink></li> -->
             </ul>
           </div>
 
@@ -59,12 +59,12 @@
           <div class="footer-section">
             <h4 class="section-title">Ресурси</h4>
             <ul class="footer-links">
-              <li><NuxtLink to="/documentation">Документація</NuxtLink></li>
-              <li><NuxtLink to="/help-center">Центр допомоги</NuxtLink></li>
+              <!-- <li><NuxtLink to="/documentation">Документація</NuxtLink></li> -->
+              <!-- <li><NuxtLink to="/help-center">Центр допомоги</NuxtLink></li> -->
               <li><NuxtLink to="/privacy">Політика конфіденційності</NuxtLink></li>
               <li><NuxtLink to="/terms">Умови використання</NuxtLink></li>
               <li><NuxtLink to="/cookies">Політика cookies</NuxtLink></li>
-              <li><NuxtLink to="/sitemap">Карта сайту</NuxtLink></li>
+              <!-- <li><NuxtLink to="/sitemap">Карта сайту</NuxtLink></li> -->
             </ul>
           </div>
 
@@ -81,22 +81,22 @@
               <div class="contact-item">
                 <Icon name="mdi:phone" class="contact-icon" />
                 <div>
-                  <p>+380777707232</p>
+                  <p>+380 (77) 770 7232</p>
                 </div>
               </div>
               <div class="contact-item">
                 <Icon name="mdi:whatsapp" class="contact-icon" />
                 <div>
                   <a href="https://wa.me/380777707232" target="_blank" rel="noopener" class="messenger-link">
-                    WhatsApp: +380777707232
+                    WhatsApp: +380 (77) 770 7232
                   </a>
                 </div>
               </div>
               <div class="contact-item">
-                <Icon name="simple-icons:viber" class="contact-icon" />
+                <Icon name="mdi:send" class="contact-icon" />
                 <div>
-                  <a href="viber://chat?number=+380777707232" target="_blank" rel="noopener" class="messenger-link">
-                    Viber: +380777707232
+                  <a href="https://t.me/Web_Core_Agency" target="_blank" rel="noopener" class="messenger-link">
+                    Telegram: @Web_Core_Agency
                   </a>
                 </div>
               </div>
@@ -114,36 +114,6 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        <!-- Newsletter Section -->
-        <div class="newsletter-section">
-          <div class="newsletter-content">
-            <div class="newsletter-text">
-              <h3>Підпишіться на наші новини</h3>
-              <p>Отримуйте останні новини про веб-технології, корисні поради та ексклюзивні пропозиції</p>
-            </div>
-            <form class="newsletter-form" @submit.prevent="subscribeNewsletter">
-              <div class="form-group">
-                <input 
-                  type="email" 
-                  v-model="email"
-                  placeholder="Ваша електронна пошта"
-                  class="newsletter-input"
-                  required
-                />
-                <button type="submit" class="newsletter-button" :disabled="isSubscribing">
-                  <Icon name="mdi:send" v-if="!isSubscribing" />
-                  <Icon name="mdi:loading" v-else class="spinning" />
-                  {{ isSubscribing ? 'Підписуємо...' : 'Підписатися' }}
-                </button>
-              </div>
-              <p class="newsletter-disclaimer">
-                Підписуючись, ви погоджуєтесь з нашою 
-                <NuxtLink to="/privacy">політикою конфіденційності</NuxtLink>
-              </p>
-            </form>
           </div>
         </div>
       </div>
@@ -224,9 +194,9 @@ const socialLinks = [
     icon: 'mdi:whatsapp'
   },
   {
-    name: 'Viber',
-    url: 'viber://chat?number=+380777707232',
-    icon: 'simple-icons:viber'
+    name: 'Telegram',
+    url: 'https://t.me/Web_Core_Agency',
+    icon: 'mdi:send'
   }
 ]
 </script>
@@ -384,30 +354,9 @@ const socialLinks = [
   color: #25D366;
 }
 
-.contact-item .contact-icon[name*="viber"],
-.contact-item .contact-icon[name*="simple-icons:viber"] {
-  color: #7360F2;
-}
 
 /* Стилі для соціальних іконок */
-.social-link[title="Viber"] .contact-icon,
-.social-link[title="Viber"] svg {
-  color: #7360F2 !important;
-}
 
-/* Альтернативний Viber стиль якщо іконка не відображається */
-.viber-icon-fallback {
-  background: #7360F2;
-  color: white;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 14px;
-}
 
 /* Newsletter Section */
 .newsletter-section {

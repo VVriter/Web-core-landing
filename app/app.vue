@@ -17,6 +17,8 @@
       <Footer />
       
       <ContactModal />
+      
+      <BackToTop />
     </div>
   </div>
 </template>
@@ -28,6 +30,7 @@ import PageLoader from '../components/PageLoader.vue'
 import NavBar from '../components/NavBar.vue'
 import Footer from '../components/Footer.vue'
 import ContactModal from '../components/ContactModal.vue'
+import BackToTop from '../components/BackToTop.vue'
 
 const { isLoading, progress, loadingMessage } = usePageLoader()
 

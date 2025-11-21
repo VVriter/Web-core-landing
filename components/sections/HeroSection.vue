@@ -15,7 +15,7 @@
         <!-- Main Content -->
         <div class="hero-main">
           <div class="hero-badge">
-            <Icon name="mdi:star" size="md" class="badge-icon" />
+            <Icon name="mdi:web" size="md" class="badge-icon" />
             <span>WebCore Agency</span>
           </div>
           
@@ -48,9 +48,10 @@
               Замовити проєкт
               <span class="btn-shine"></span>
             </button>
-            <button class="btn-secondary" @click="handleContactClick">
+            <button class="btn-secondary btn-with-badge" style="overflow: visible;" @click="handleContactClick">
               <Icon name="mdi:send" size="lg" />
-              Зв'язатися зараз
+              Замовити консультацію
+              <span class="free-badge">FREE</span>
             </button>
           </div>
 
@@ -111,15 +112,15 @@
             <div class="floating-elements">
               <div class="floating-card card-1">
                 <Icon name="mdi:trending-up" size="md" />
-                <span>+150% продажів</span>
+                <span>Збільшуємо продажі</span>
               </div>
               <div class="floating-card card-2">
                 <Icon name="mdi:speedometer" size="md" />
                 <span>Швидкий результат</span>
               </div>
               <div class="floating-card card-3">
-                <Icon name="mdi:mobile-phone" size="md" />
-                <span>Працює скрізь</span>
+                <Icon name="mdi:star" size="md" />
+                <span>Довіра клієнтів</span>
               </div>
               <div class="floating-card card-4">
                 <Icon name="mdi:google" size="md" />
@@ -397,6 +398,7 @@ const scrollToFeatures = () => {
 
 .btn-primary,
 .btn-secondary {
+
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -451,6 +453,45 @@ const scrollToFeatures = () => {
   border-color: var(--color-accent-primary);
   transform: translateY(-4px);
   box-shadow: 0 12px 32px var(--color-shadow-color);
+}
+
+/* Button with badge styles */
+.btn-with-badge {
+  position: relative;
+}
+
+.btn-with-badge:hover {
+  .free-badge {
+    scale: 1.3;
+  }
+}
+
+.free-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: linear-gradient(135deg, #10B981, #059669);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+  animation: pulse-badge 2s infinite;
+  z-index: 10;
+}
+
+@keyframes pulse-badge {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.5);
+  }
 }
 
 /* Trust Indicators */
@@ -676,7 +717,7 @@ const scrollToFeatures = () => {
 }
 
 .card-1 {
-  top: 10%;
+  top: 20%;
   right: -20%;
   animation-delay: 0s;
 }
@@ -1079,6 +1120,14 @@ const scrollToFeatures = () => {
     font-size: 0.875rem;
   }
 
+  .free-badge {
+    top: -6px;
+    right: -6px;
+    font-size: 0.6rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 10px;
+  }
+
   .trust-indicators {
     display: none;
   }
@@ -1170,6 +1219,14 @@ const scrollToFeatures = () => {
   .btn-primary .btn-shine,
   .btn-secondary .btn-shine {
     display: none;
+  }
+
+  .free-badge {
+    top: -5px;
+    right: -5px;
+    font-size: 0.55rem;
+    padding: 0.15rem 0.35rem;
+    border-radius: 8px;
   }
 
   .trust-indicators {

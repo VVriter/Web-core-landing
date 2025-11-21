@@ -5,7 +5,7 @@ export type Theme = 'light' | 'dark' | 'auto'
 const STORAGE_KEY = 'webcore-theme'
 
 // Global reactive state
-const selectedTheme = ref<Theme>('light') // Default to light
+const selectedTheme = ref<Theme>('auto') // Default to light
 const systemPrefersDark = ref(false)
 
 // Computed current theme

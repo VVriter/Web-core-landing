@@ -51,6 +51,16 @@
           <div class="faq-accent-line"></div>
         </div>
       </div>
+      
+      <!-- Question CTA -->
+      <div class="question-cta">
+        <h3 class="cta-title">Не знайшли відповідь на своє запитання?</h3>
+        <p class="cta-description">Залиште своє запитання і ми обов'язково відповімо вам найближчим часом</p>
+        <button class="btn-question" @click="handleQuestionClick">
+          <Icon name="mdi:message-question" size="lg" />
+          Залишити запитання
+        </button>
+      </div>
     </div>
 
     <!-- Floating Particles -->
@@ -63,6 +73,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Icon from '../Icon.vue'
+import { useModal } from '../../composables/useModal'
+
+const { openModal } = useModal()
 
 // FAQ data
 const activeFaq = ref(-1)
@@ -99,6 +112,10 @@ const faqItems = [
 
 const toggleFaq = (index: number) => {
   activeFaq.value = activeFaq.value === index ? -1 : index
+}
+
+const handleQuestionClick = () => {
+  openModal('contact')
 }
 
 // Generate random particle styles
@@ -419,6 +436,73 @@ const getParticleStyle = (index: number) => {
   transform: scaleX(1);
 }
 
+/* Question CTA */
+.question-cta {
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+
+.cta-description {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn-question {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-question:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(139, 92, 246, 0.4);
+}
+
+.btn-question:active {
+  transform: translateY(-2px);
+}
+
+.btn-question::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-question:hover::after {
+  left: 100%;
+}
+
 /* Floating Particles */
 .floating-particles {
   position: absolute;
@@ -538,6 +622,25 @@ const getParticleStyle = (index: number) => {
     filter: blur(60px);
     opacity: 0.2;
   }
+
+  .question-cta {
+    margin-top: 3rem;
+    padding: 2rem 1.5rem;
+  }
+
+  .cta-title {
+    font-size: 1.25rem;
+  }
+
+  .cta-description {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn-question {
+    padding: 0.875rem 1.75rem;
+    font-size: 0.95rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -606,6 +709,31 @@ const getParticleStyle = (index: number) => {
   .shape {
     filter: blur(40px);
     opacity: 0.15;
+  }
+
+  .question-cta {
+    margin-top: 2rem;
+    padding: 1.5rem 1rem;
+    border-radius: 16px;
+  }
+
+  .cta-title {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .cta-description {
+    font-size: 0.875rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+  }
+
+  .btn-question {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
   }
 }
 </style>
