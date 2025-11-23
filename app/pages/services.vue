@@ -74,6 +74,10 @@
             
             <div class="service-content">
               <h3 class="service-title">{{ service.title }}</h3>
+              <div class="service-price" v-if="service.from">
+                <span class="price-label">від</span>
+                <span class="price-value">${{ service.from }}</span>
+              </div>
               <p class="service-description">{{ service.description }}</p>
               
               <ul class="service-features">
@@ -175,33 +179,342 @@ const activeCategory = ref('all')
 
 // Service categories
 const serviceCategories = [
-  { id: 'all', name: 'Всі послуги', icon: 'mdi:view-grid', count: 30 },
-  { id: 'web', name: 'Веб-розробка', icon: 'mdi:web', count: 8 },
-  { id: 'business', name: 'Бізнес-рішення', icon: 'mdi:briefcase', count: 12 },
-  { id: 'marketing', name: 'Маркетинг', icon: 'mdi:trending-up', count: 5 },
-  { id: 'support', name: 'Підтримка', icon: 'mdi:headset', count: 5 }
+  { id: 'all', name: 'Всі послуги', icon: 'mdi:view-grid', count: 18 },
+  { id: 'web', name: 'Веб-розробка', icon: 'mdi:web', count: 7 },
+  { id: 'business', name: 'Бізнес-рішення', icon: 'mdi:briefcase', count: 7 },
+  { id: 'marketing', name: 'Маркетинг', icon: 'mdi:trending-up', count: 2 },
+  { id: 'support', name: 'Підтримка', icon: 'mdi:headset', count: 2 }
 ]
 
 // All services data - business and development focused
 const allServices = [
-{
-    id: 'corporate-website',
-    title: 'Корпоративний сайт',
-    description: 'Професійний сайт для представлення вашої компанії з адміністративною панеллю. Збільшує довіру клієнтів та покращує імідж бізнесу.',
+  {
+    id: 'business-card-site',
+    from: 180,
+    title: 'Сайт-візитка',
+    description: 'Короткий сайт, що презентує бізнес або спеціаліста: хто ви, що робите та як з вами зв\'язатися.',
+    icon: 'mdi:account-box',
+    category: 'web',
+    popular: true,
+    featured: false,
+    features: [
+      'Презентація компанії або спеціаліста',
+      'Опис послуг чи компетенцій',
+      'Блок контактів (телефон, e-mail, соцмережі)',
+      'Форма зворотного зв\'язку',
+      'Адаптивний сучасний дизайн',
+      'Швидка розробка та запуск'
+    ]
+  },
+  {
+    id: 'landing-page',
+    from: 270,
+    title: 'Лендінг (Landing Page)',
+    description: 'Односторінковий сайт для продажів або реклами окремої послуги чи товару.',
+    icon: 'mdi:cursor-default-click',
+    category: 'web',
+    popular: true,
+    featured: false,
+    features: [
+      'Структура, орієнтована на конверсію',
+      'Маркетингові блоки (офер, переваги, CTA)',
+      'Форма збору заявок або лідів',
+      'Інтеграція з рекламою та аналітикою',
+      'Адаптивний дизайн',
+      'Швидкий запуск під рекламну кампанію'
+    ]
+  },
+  {
+    id: 'official-website',
+    from: 365,
+    title: 'Офіційний сайт',
+    description: 'Стандартний корпоративний сайт із повною інформацією про діяльність компанії.',
     icon: 'mdi:domain',
     category: 'web',
     popular: true,
-    featured: true,
+    featured: false,
     features: [
-      'Адаптивний дизайн для всіх пристроїв',
-      'CMS для самостійного управління контентом',
-      'SEO оптимізація для Google',
-      'Інтеграція з соціальними мережами',
-      'Форми зворотного зв\'язку з клієнтами',
-      'Аналітика відвідувачів',
-      '3 місяці безкоштовної підтримки'
+      'Розділи: Про компанію, Послуги, Кейси, Блог, Контакти',
+      'Корпоративний імідж та бренд-дизайн',
+      'Професійна структура для компаній будь-якого масштабу',
+      'Розширені SEO-налаштування',
+      'Форми зворотного зв\'язку та інтеграції CRM',
+      'Можливість подальшого масштабування'
     ]
   },
+  {
+    id: 'ecommerce-store',
+    from: 610,
+    title: 'Інтернет-магазин (E-commerce)',
+    description: 'Повноцінний онлайн-магазин із каталогом товарів, кошиком та системою оплат.',
+    icon: 'mdi:shopping-outline',
+    category: 'web',
+    popular: false,
+    featured: false,
+    features: [
+      'Каталог товарів із фото, описами та характеристиками',
+      'Кошик та оформлення замовлення',
+      'Онлайн-оплати (банківські картки, Apple Pay/Google Pay)',
+      'Особистий кабінет користувача',
+      'Фільтри, сортування та пошук по товарах',
+      'Інтеграція служб доставки',
+      'Система акцій, промокодів і знижок',
+      'Підключення аналітики та e-commerce подій'
+    ]
+  },
+  {
+    id: 'corporate-website',
+    from: 490,
+    title: 'Корпоративний сайт',
+    description: 'Сайт для середнього або великого бізнесу з повною структурою компанії та інформаційними розділами.',
+    icon: 'mdi:office-building',
+    category: 'web',
+    popular: false,
+    featured: false,
+    features: [
+      'Розділи: Послуги, Команда, Кейси, Блог, Вакансії',
+      'Корпоративний бренд та продуманий UX',
+      'Можливість масштабування та розвитку проєкту',
+      'SEO-оптимізація та технічна швидкодія',
+      'Інтеграції з CRM/HR системами',
+      'Форми для заявок, відгуків, подачі на вакансії'
+    ]
+  },
+  {
+    id: 'portfolio-website',
+    from: 170,
+    title: 'Портфоліо-сайт',
+    description: 'Сайт для дизайнерів, фотографів, майстрів та студій із демонстрацією робіт.',
+    icon: 'mdi:palette',
+    category: 'web',
+    popular: false,
+    featured: false,
+    features: [
+      'Галерея робіт або проєктів',
+      'Категорії та фільтри портфоліо',
+      'Сторінки з детальним описом робіт',
+      'Блок "Про мене/нас"',
+      'Контакти та форми співпраці',
+      'Адаптивний стильний дизайн'
+    ]
+  },
+  {
+    id: 'catalog-website',
+    from: 290,
+    title: 'Сайт-каталог',
+    description: 'Великий каталог товарів або послуг без онлайн-оплат.',
+    icon: 'mdi:view-grid-outline',
+    category: 'web',
+    popular: false,
+    featured: false,
+    features: [
+      'Каталог товарів/послуг із фото та описами',
+      'Фільтри, сортування, пошук',
+      'Розділи: категорії, підкатегорії, картки товарів',
+      'Форми запитів та замовлень без оплати',
+      'Адаптивний дизайн',
+      'Інтеграція аналітики та CRM (за бажанням)'
+    ]
+  },
+  {
+    id: 'technical-support',
+    from: 35,
+    title: 'Технічна підтримка сайту',
+    description: 'Регулярне обслуговування сайту: оновлення, виправлення, моніторинг та безпека.',
+    icon: 'mdi:shield',
+    category: 'support',
+    popular: false,
+    featured: false,
+    features: [
+      'Регулярні оновлення CMS, плагінів і модулів',
+      'Виправлення помилок та технічних багів',
+      'Моніторинг доступності та швидкодії',
+      'Резервні копії та відновлення',
+      'Захист від вірусів і спаму',
+      'Оптимізація продуктивності'
+    ]
+  },
+  {
+    id: 'payment-integration',
+    from: 75,
+    title: 'Інтеграція онлайн-оплат',
+    description: 'Підключення WayForPay, LiqPay, Stripe, PayPal та інших платіжних систем.',
+    icon: 'mdi:credit-card-outline',
+    category: 'business',
+    popular: false,
+    featured: false,
+    features: [
+      'Налаштування WayForPay, LiqPay, Stripe, PayPal',
+      'Підключення онлайн-оплат до сайту або кошика',
+      'Інтеграція Apple Pay / Google Pay',
+      'Тестові та бойові середовища',
+      'Налаштування вебхукiв та нотифікацій',
+      'Перевірка коректності платежів'
+    ]
+  },
+  {
+    id: 'pagespeed-optimization',
+    from: 60,
+    title: 'Оптимізація швидкості (PageSpeed)',
+    description: 'Покращення швидкості завантаження сайту та показників Google Core Web Vitals.',
+    icon: 'mdi:speedometer',
+    category: 'support',
+    popular: false,
+    featured: false,
+    features: [
+      'Аналіз поточної швидкості сайту',
+      'Оптимізація зображень та ресурсів',
+      'Мінімізація CSS, JS, HTML',
+      'Налаштування кешування та CDN',
+      'Покращення показників Core Web Vitals',
+      'Моніторинг швидкості після оптимізації'
+    ]
+  },
+  {
+    id: 'website-redesign',
+    from: 245,
+    title: 'Редизайн сайту',
+    description: 'Оновлення зовнішнього вигляду та структури існуючого сайту для сучасного вигляду та покращення UX.',
+    icon: 'mdi:brush',
+    category: 'business',
+    popular: false,
+    featured: false,
+    features: [
+      'Аналіз поточного сайту та UX',
+      'Оновлення дизайну під сучасні тенденції',
+      'Перепроектування структури та навігації',
+      'Адаптація під мобільні пристрої та різні екрани',
+      'Інтеграція нових функцій та модулів',
+      'Покращення швидкості та SEO-показників'
+    ]
+  },
+  {
+    id: 'ui-ux-design',
+    from: 150,
+    title: 'UI/UX дизайн сайтів',
+    description: 'Створення зручного інтерфейсу, сучасного стилю та логічної структури для сайту.',
+    icon: 'mdi:shape-outline',
+    category: 'business',
+    popular: false,
+    featured: false,
+    features: [
+      'Проектування зручного користувацького інтерфейсу',
+      'Логічна структура сайту та навігація',
+      'Сучасний та привабливий дизайн',
+      'Адаптація під різні пристрої та екрани',
+      'Прототипування та тестування UX',
+      'Підвищення конверсій та залучення користувачів'
+    ]
+  },
+  {
+    id: 'brand-style-website',
+    from: 145,
+    title: 'Створення бренд-стилю для сайту',
+    description: 'Розробка фірмових кольорів, шрифтів та гайдлайнів візуального стилю для сайту.',
+    icon: 'mdi:format-paint',
+    category: 'business',
+    popular: false,
+    featured: false,
+    features: [
+      'Підбір фірмових кольорів та шрифтів',
+      'Створення гайдлайнів візуального стилю',
+      'Розробка логотипу та елементів бренду',
+      'Уніфікація стилю для всіх сторінок сайту',
+      'Адаптація бренду під цифрові платформи',
+      'Підвищення впізнаваності та впливу бренду'
+    ]
+  },
+  {
+    id: 'seo-optimization',
+    from: 95,
+    title: 'SEO-оптимізація',
+    description: 'Просування сайту в Google: технічне SEO, підбір ключових слів та внутрішня оптимізація.',
+    icon: 'mdi:google-ads',
+    category: 'marketing',
+    popular: false,
+    featured: false,
+    features: [
+      'Аналіз сайту та технічний аудит',
+      'Підбір ключових слів та семантичне ядро',
+      'Оптимізація контенту та метатегів',
+      'Внутрішня перелінковка та структура сайту',
+      'Підвищення швидкості та Core Web Vitals',
+      'Моніторинг позицій та ефективності SEO'
+    ]
+  },
+  {
+    id: 'analytics-setup',
+    from: 50,
+    title: 'Налаштування аналітики (GA4, Tag Manager)',
+    description: 'Підключення та налаштування Google Analytics 4, Tag Manager та інших систем аналітики для сайту.',
+    icon: 'mdi:chart-line',
+    category: 'marketing',
+    popular: false,
+    featured: false,
+    features: [
+      'Підключення Google Analytics 4 та Google Tag Manager',
+      'Налаштування подій та конверсій',
+      'Інтеграція з формами, кнопками та e-commerce подіями',
+      'Перевірка коректності збору даних',
+      'Налаштування звітів та дашбордів',
+      'Рекомендації для покращення аналітики та маркетингу'
+    ]
+  },
+  {
+    id: 'chatbots-integration',
+    from: 150,
+    title: 'Чат-боти (Telegram, Viber, WhatsApp)',
+    description: 'Створення та інтеграція чат-ботів для автоматизації заявок, консультацій, бронювань, продажів та підтримки клієнтів.',
+    icon: 'mdi:robot',
+    category: 'business',
+    popular: false,
+    featured: false,
+    features: [
+      'Розробка чат-ботів для Telegram, Viber, WhatsApp',
+      'Автоматизація заявок, консультацій та бронювань',
+      'Інтеграція з сайтом та CRM-системами',
+      'Повідомлення та сповіщення клієнтів 24/7',
+      'Підтримка продажів та обробка запитів клієнтів',
+      'Можливість розширення функціоналу та сценаріїв взаємодії'
+    ]
+  },
+  {
+    id: 'crm-integration',
+    from: 290,
+    title: 'Підключення та налаштування CRM',
+    description: 'Комплексне під\'єднання системи управління клієнтами до сайту для автоматизації продажів та роботи з лідами.',
+    icon: 'mdi:account-group',
+    category: 'business',
+    popular: false,
+    featured: false,
+    features: [
+      'Автоматичне збереження заявок із сайту',
+      'Створення та ведення лідів',
+      'Налаштування воронок продажів',
+      'Інтеграція форм, месенджерів та чат-ботів',
+      'Підключення e-mail розсилок та повідомлень',
+      'Аналітика продажів та контроль всіх заявок',
+      'Автоматизація бізнес-процесів компанії'
+    ]
+  },
+  {
+    id: 'online-calculators',
+    from: 145,
+    title: 'Створення онлайн-калькуляторів',
+    description: 'Інтерактивний інструмент для автоматичного розрахунку ціни або параметрів продукту чи послуги.',
+    icon: 'mdi:calculator',
+    category: 'business',
+    popular: false,
+    featured: false,
+    features: [
+      'Розрахунок вартості товарів або послуг',
+      'Калькулятори доставки, ремонту, кредитів, тарифів',
+      'Конфігуратор товарів з інтерактивними опціями',
+      'Інтеграція з сайтом та CRM',
+      'Можливість збору даних користувачів та заявок',
+      'Адаптивний дизайн для всіх пристроїв'
+    ]
+  }
 ]
 
 // Advantages data
@@ -628,6 +941,29 @@ const openConsultationModal = (service: any) => {
   color: var(--color-text-primary);
   margin-bottom: 0.75rem;
   line-height: 1.3;
+}
+
+.service-price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.price-label {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.price-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-accent-primary);
+  background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .service-description {
