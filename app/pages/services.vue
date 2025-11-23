@@ -74,10 +74,10 @@
             
             <div class="service-content">
               <h3 class="service-title">{{ service.title }}</h3>
-              <div class="service-price" v-if="service.from">
+              <!--<div class="service-price" v-if="service.from">
                 <span class="price-label">від</span>
                 <span class="price-value">${{ service.from }}</span>
-              </div>
+              </div>-->
               <p class="service-description">{{ service.description }}</p>
               
               <ul class="service-features">
