@@ -15,8 +15,8 @@ WORKDIR /app
 RUN apk add --no-cache python3 make g++ libc6-compat git
 
 # Copy package.json and install all dependencies (including dev)
-COPY package*.json ./
-RUN npm ci --legacy-peer-deps
+COPY package.json ./
+RUN npm install --legacy-peer-deps
 
 # Install better-sqlite3 for @nuxt/content
 RUN npm install --save-optional better-sqlite3 --legacy-peer-deps || echo "better-sqlite3 installation skipped"
@@ -51,8 +51,8 @@ RUN addgroup -g 1001 -S nodejs && \
 RUN apk add --no-cache dumb-init libc6-compat wget
 
 # Copy only production deps
-COPY package*.json ./
-RUN npm ci --omit=dev --legacy-peer-deps && npm cache clean --force
+COPY package.json ./
+RUN npm install --omit=dev --legacy-peer-deps && npm cache clean --force
 
 # Copy built Nuxt output
 COPY --from=build --chown=nuxt:nodejs /app/.output ./.output
