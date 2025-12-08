@@ -88,7 +88,7 @@
                 <Icon name="mdi:whatsapp" class="contact-icon" />
                 <div>
                   <a href="https://wa.me/380777707232" target="_blank" rel="noopener" class="messenger-link">
-                    WhatsApp: +380 (77) 770 7232
+                    +380 (77) 770 7232
                   </a>
                 </div>
               </div>
@@ -96,7 +96,7 @@
                 <Icon name="mdi:send" class="contact-icon" />
                 <div>
                   <a href="https://t.me/Web_Core_Agency" target="_blank" rel="noopener" class="messenger-link">
-                    Telegram: @Web_Core_Agency
+                    @Web_Core_Agency
                   </a>
                 </div>
               </div>

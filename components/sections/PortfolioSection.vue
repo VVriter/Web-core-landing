@@ -99,13 +99,19 @@ const portfolioProjects = [
   }
 ]
 
-// Generate random particle styles
+// Seeded pseudo-random function for consistent SSR/client values
+const seededRandom = (seed: number) => {
+  const x = Math.sin(seed * 9999) * 10000
+  return x - Math.floor(x)
+}
+
+// Generate deterministic particle styles based on index
 const getParticleStyle = (index: number) => {
-  const size = Math.random() * 6 + 3
-  const left = Math.random() * 100
-  const animationDuration = Math.random() * 12 + 18
-  const delay = Math.random() * 3
-  
+  const size = seededRandom(index) * 6 + 3
+  const left = seededRandom(index + 100) * 100
+  const animationDuration = seededRandom(index + 200) * 12 + 18
+  const delay = seededRandom(index + 300) * 3
+
   return {
     width: `${size}px`,
     height: `${size}px`,

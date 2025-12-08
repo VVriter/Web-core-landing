@@ -153,7 +153,7 @@
       </div>
     </section>
 
-    <!-- Team Section -->
+    <!-- Team Section (temporarily hidden)
     <section class="team-section">
       <div class="container">
         <div class="section-header">
@@ -163,7 +163,7 @@
           </div>
           <h2 class="section-title">Експерти, які створюють ваш успіх</h2>
         </div>
-        
+
         <div class="team-grid">
           <div v-for="member in teamMembers" :key="member.id" class="team-card">
             <div class="member-avatar">
@@ -183,6 +183,7 @@
         </div>
       </div>
     </section>
+    -->
 
     <!-- CTA Section -->
     <section class="about-cta">

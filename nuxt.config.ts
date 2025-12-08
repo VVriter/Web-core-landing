@@ -4,6 +4,11 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   runtimeConfig: {
+    // Server-side only (private)
+    telegramBotToken: process.env.TELEGRAM_BOT_TOKEN || '',
+    telegramChatId: process.env.TELEGRAM_CHAT_ID || '',
+    telegramThreadId: process.env.TELEGRAM_THREAD_ID || '',
+    // Client-side (public)
     public: {
       posthogPublicKey: 'phc_HTeZfabzEkhAJ89ZZGedcvwX0xadpKuWgB2TVUDscQU',
       posthogHost: 'https://eu.i.posthog.com',
@@ -63,7 +68,7 @@ export default defineNuxtConfig({
         
         // Additional Meta
         { name: 'theme-color', content: '#8B5CF6' },
-        { name: 'apple-mobile-web-app-capable', content: 'yes' },
+        { name: 'mobile-web-app-capable', content: 'yes' },
         { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
         { name: 'apple-mobile-web-app-title', content: 'WebCore' },
         

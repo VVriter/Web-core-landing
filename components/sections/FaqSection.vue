@@ -118,13 +118,19 @@ const handleQuestionClick = () => {
   openModal('contact')
 }
 
-// Generate random particle styles
+// Seeded pseudo-random function for consistent SSR/client values
+const seededRandom = (seed: number) => {
+  const x = Math.sin(seed * 9999) * 10000
+  return x - Math.floor(x)
+}
+
+// Generate deterministic particle styles based on index
 const getParticleStyle = (index: number) => {
-  const size = Math.random() * 5 + 3
-  const left = Math.random() * 100
-  const animationDuration = Math.random() * 10 + 15
-  const delay = Math.random() * 2
-  
+  const size = seededRandom(index) * 5 + 3
+  const left = seededRandom(index + 100) * 100
+  const animationDuration = seededRandom(index + 200) * 10 + 15
+  const delay = seededRandom(index + 300) * 2
+
   return {
     width: `${size}px`,
     height: `${size}px`,
@@ -172,6 +178,8 @@ const getParticleStyle = (index: number) => {
   filter: blur(80px);
   opacity: 0.3;
   animation: morphShape 25s ease-in-out infinite;
+  will-change: transform, border-radius;
+  backface-visibility: hidden;
 }
 
 .shape-1 {
@@ -291,13 +299,14 @@ const getParticleStyle = (index: number) => {
 .faq-item {
   position: relative;
   background: var(--color-card-bg);
-  backdrop-filter: blur(20px);
   border: 1px solid var(--color-border-primary);
   border-radius: 24px;
   margin-bottom: 1.5rem;
   overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform;
+  contain: layout style;
 }
 
 .faq-item:hover {
@@ -321,9 +330,9 @@ const getParticleStyle = (index: number) => {
   background: radial-gradient(circle, rgba(139, 92, 246, 0.15), transparent 70%);
   transform: translate(-50%, -50%);
   opacity: 0;
-  transition: opacity 0.4s ease;
   border-radius: 50%;
   pointer-events: none;
+  transition: opacity 0.3s ease;
 }
 
 .faq-item.active .faq-glow {
@@ -340,7 +349,6 @@ const getParticleStyle = (index: number) => {
   align-items: center;
   justify-content: space-between;
   padding: 2rem 2.5rem;
-  transition: all 0.3s ease;
 }
 
 .question-left {
@@ -381,7 +389,6 @@ const getParticleStyle = (index: number) => {
 
 .faq-icon {
   color: var(--color-accent-primary);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
   width: 32px;
   height: 32px;
@@ -390,6 +397,8 @@ const getParticleStyle = (index: number) => {
   justify-content: center;
   background: var(--color-bg-tertiary);
   border-radius: 8px;
+  transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+  will-change: transform;
 }
 
 .faq-item.active .faq-icon {
@@ -399,25 +408,25 @@ const getParticleStyle = (index: number) => {
 }
 
 .faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s ease;
 }
 
 .faq-item.active .faq-answer {
-  max-height: 500px;
+  grid-template-rows: 1fr;
 }
 
 .answer-content {
-  padding: 0 2.5rem 2rem;
+  overflow: hidden;
 }
 
 .faq-answer p {
   margin: 0;
+  padding: 0 2.5rem 2rem;
   color: var(--color-text-secondary);
   line-height: 1.8;
   font-size: 1.0625rem;
-  padding-top: 0.5rem;
 }
 
 .faq-accent-line {
@@ -429,7 +438,8 @@ const getParticleStyle = (index: number) => {
   background: linear-gradient(90deg, #8B5CF6, #D946EF, #F97316);
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.3s ease;
+  will-change: transform;
 }
 
 .faq-item.active .faq-accent-line {
@@ -521,6 +531,8 @@ const getParticleStyle = (index: number) => {
   background: linear-gradient(135deg, #8B5CF6, #D946EF);
   opacity: 0.2;
   animation: floatUp linear infinite;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
 }
 
 /* Animations */
@@ -563,14 +575,14 @@ const getParticleStyle = (index: number) => {
 
 @keyframes floatUp {
   0% {
-    bottom: -10px;
+    transform: translateY(0);
     opacity: 0.2;
   }
   50% {
     opacity: 0.4;
   }
   100% {
-    bottom: 100%;
+    transform: translateY(-100vh);
     opacity: 0;
   }
 }
@@ -610,11 +622,8 @@ const getParticleStyle = (index: number) => {
     font-size: 1.125rem;
   }
 
-  .answer-content {
-    padding: 0 2rem 1.5rem;
-  }
-
   .faq-answer p {
+    padding: 0 2rem 1.5rem;
     font-size: 1rem;
   }
 
@@ -697,11 +706,8 @@ const getParticleStyle = (index: number) => {
     height: 28px;
   }
 
-  .answer-content {
-    padding: 0 1.5rem 1.25rem;
-  }
-
   .faq-answer p {
+    padding: 0 1.5rem 1.25rem;
     font-size: 0.95rem;
     line-height: 1.7;
   }

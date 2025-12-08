@@ -32,7 +32,26 @@
 
           <!-- Modal Body -->
           <div class="modal-body">
-            <form @submit.prevent="handleSubmit" class="contact-form">
+            <!-- Success State -->
+            <Transition name="success-view">
+              <div v-if="isSuccess" class="success-view">
+                <div class="success-icon-wrapper">
+                  <Icon name="mdi:check-circle" size="4xl" class="success-icon" />
+                  <div class="success-pulse"></div>
+                </div>
+                <h3 class="success-title">Дякуємо за заявку!</h3>
+                <p class="success-message">
+                  Ми отримали ваше повідомлення та зв'яжемося з вами найближчим часом.
+                </p>
+                <p class="success-hint">Зазвичай ми відповідаємо протягом 2-4 годин у робочий час</p>
+                <button type="button" class="success-button" @click="closeModal">
+                  <Icon name="mdi:check" size="md" />
+                  Зрозуміло
+                </button>
+              </div>
+            </Transition>
+
+            <form v-if="!isSuccess" @submit.prevent="handleSubmit" class="contact-form">
               <!-- Name Field -->
               <div class="form-group">
                 <label for="name" class="form-label">
@@ -50,11 +69,32 @@
                 />
               </div>
 
+              <!-- Phone Field -->
+              <div class="form-group">
+                <label for="phone" class="form-label">
+                  <Icon name="mdi:phone" size="md" class="label-icon" />
+                  Телефон <span class="required">*</span>
+                </label>
+                <input
+                  id="phone"
+                  :value="phoneMask.phone.value"
+                  type="tel"
+                  class="form-input"
+                  placeholder="+38 (0XX) XXX XX XX"
+                  required
+                  :disabled="isSubmitting"
+                  @input="phoneMask.handlePhoneInput"
+                  @focus="phoneMask.handlePhoneFocus"
+                  @blur="phoneMask.handlePhoneBlur"
+                  @keydown="phoneMask.handlePhoneKeydown"
+                />
+              </div>
+
               <!-- Email Field -->
               <div class="form-group">
                 <label for="email" class="form-label">
                   <Icon name="mdi:email" size="md" class="label-icon" />
-                  Електронна пошта <span class="required">*</span>
+                  Електронна пошта
                 </label>
                 <input
                   id="email"
@@ -62,23 +102,6 @@
                   type="email"
                   class="form-input"
                   placeholder="your@email.com"
-                  required
-                  :disabled="isSubmitting"
-                />
-              </div>
-
-              <!-- Phone Field -->
-              <div class="form-group">
-                <label for="phone" class="form-label">
-                  <Icon name="mdi:phone" size="md" class="label-icon" />
-                  Телефон
-                </label>
-                <input
-                  id="phone"
-                  v-model="formData.phone"
-                  type="tel"
-                  class="form-input"
-                  placeholder="+380777707232"
                   :disabled="isSubmitting"
                 />
               </div>
@@ -86,18 +109,18 @@
               <!-- Message Field -->
               <div class="form-group">
                 <label for="message" class="form-label">
-                  <Icon name="mdi:message-text" size="md" class="label-icon" />
-                  Повідомлення <span class="required">*</span>
+                  <Icon name="mdi:lightbulb" size="md" class="label-icon" />
+                  Розкажіть про ваш проєкт
                 </label>
+                <span class="form-hint">Опишіть ідею, тип сайту чи застосунку, бажані функції</span>
                 <textarea
                   id="message"
                   v-model="formData.message"
                   class="form-textarea"
                   rows="5"
-                  :placeholder="modalType === 'order' 
-                    ? 'Опишіть ваш проєкт, терміни та особливі вимоги...' 
-                    : 'Ваше повідомлення...'"
-                  required
+                  :placeholder="modalType === 'order'
+                    ? 'Наприклад: Потрібен інтернет-магазин для продажу одягу з інтеграцією оплати та доставки...'
+                    : 'Наприклад: Цікавить розробка лендінгу для моєї компанії з формою заявки...'"
                   :disabled="isSubmitting"
                 ></textarea>
               </div>
@@ -148,27 +171,30 @@ import { ref, computed, watch } from 'vue'
 import Icon from './Icon.vue'
 import { useFormSubmit } from '../composables/useFormSubmit'
 import { useModal } from '../composables/useModal'
+import { usePhoneMask } from '../composables/usePhoneMask'
 
 const { isOpen, modalType, closeModal } = useModal()
 const { submitForm } = useFormSubmit()
 const { $posthog } = useNuxtApp()
 
+// Phone mask
+const phoneMask = usePhoneMask()
+
 // Form data
 const formData = ref({
   name: '',
   email: '',
-  phone: '',
   message: ''
 })
 
 const isSubmitting = ref(false)
+const isSuccess = ref(false)
 const message = ref<{ type: 'success' | 'error' | null, text: string }>({ type: null, text: '' })
 
 // Form validation
 const isFormValid = computed(() => {
   return formData.value.name.trim() !== '' &&
-         formData.value.email.trim() !== '' &&
-         formData.value.message.trim() !== ''
+         phoneMask.isValid.value
 })
 
 // Reset form when modal closes and track modal events
@@ -187,11 +213,12 @@ watch(isOpen, (newValue) => {
     formData.value = {
       name: '',
       email: '',
-      phone: '',
       message: ''
     }
+    phoneMask.phone.value = ''
     message.value = { type: null, text: '' }
-    
+    isSuccess.value = false
+
     // PostHog трекінг закриття модального вікна
     if ($posthog) {
       $posthog.capture('modal_closed', {
@@ -216,38 +243,34 @@ const handleSubmit = async () => {
 
     const result = await submitForm({
       name: formData.value.name,
-      email: formData.value.email,
-      phone: formData.value.phone || undefined,
+      email: formData.value.email || undefined,
+      phone: phoneMask.getCleanPhone(),
       message: formData.value.message,
       subject
     })
 
     if (result.success) {
-      message.value = { type: 'success', text: result.message || 'Повідомлення успішно відправлено!' }
-      
+      // Show success view
+      isSuccess.value = true
+
       // PostHog трекінг успішної відправки форми
       if ($posthog) {
         $posthog.capture('form_submitted_success', {
           form_type: modalType.value,
           subject: subject,
-          has_phone: !!formData.value.phone,
+          has_email: !!formData.value.email,
           message_length: formData.value.message.length,
           timestamp: new Date().toISOString()
         })
       }
-      
-      // Reset form after success
+
+      // Reset form data (but keep success view)
       formData.value = {
         name: '',
         email: '',
-        phone: '',
         message: ''
       }
-
-      // Close modal after 2 seconds
-      setTimeout(() => {
-        closeModal()
-      }, 2000)
+      phoneMask.phone.value = ''
     } else {
       message.value = { type: 'error', text: result.message || 'Помилка відправки повідомлення' }
       
@@ -446,6 +469,12 @@ if (typeof window !== 'undefined') {
   color: var(--color-accent-secondary);
 }
 
+.form-hint {
+  font-size: 0.8rem;
+  color: var(--color-text-tertiary);
+  margin-top: -0.25rem;
+}
+
 .form-input,
 .form-textarea {
   padding: 0.875rem 1rem;
@@ -613,6 +642,121 @@ if (typeof window !== 'undefined') {
 .message-leave-to {
   opacity: 0;
   transform: translateY(-10px);
+}
+
+/* Success View */
+.success-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.success-icon-wrapper {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.success-icon {
+  color: #10b981;
+  position: relative;
+  z-index: 2;
+  animation: successBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.success-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.3), transparent 70%);
+  border-radius: 50%;
+  animation: successPulse 2s ease-in-out infinite;
+}
+
+.success-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0 0 1rem 0;
+  background: linear-gradient(135deg, #10b981, #059669);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.success-message {
+  font-size: 1.1rem;
+  color: var(--color-text-secondary);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.6;
+  max-width: 400px;
+}
+
+.success-hint {
+  font-size: 0.9rem;
+  color: var(--color-text-tertiary);
+  margin: 0 0 2rem 0;
+}
+
+.success-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.success-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+}
+
+@keyframes successBounce {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes successPulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+.success-view-enter-active,
+.success-view-leave-active {
+  transition: all 0.4s ease;
+}
+
+.success-view-enter-from,
+.success-view-leave-to {
+  opacity: 0;
+  transform: scale(0.9);
 }
 
 /* Responsive Design */

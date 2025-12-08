@@ -92,12 +92,32 @@
           </div>
 
           <div class="contact-form-wrapper">
-            <div class="form-header">
-              <h3 class="form-title">Напишіть нам</h3>
-              <p class="form-description">Заповніть форму і ми зв'яжемося з вами найближчим часом</p>
-            </div>
-            
-            <form class="contact-form" @submit.prevent="handleSubmit">
+            <!-- Success State -->
+            <Transition name="success-view">
+              <div v-if="isSuccess" class="success-view">
+                <div class="success-icon-wrapper">
+                  <Icon name="mdi:check-circle" size="4xl" class="success-icon" />
+                  <div class="success-pulse"></div>
+                </div>
+                <h3 class="success-title">Дякуємо за заявку!</h3>
+                <p class="success-message">
+                  Ми отримали ваше повідомлення та зв'яжемося з вами найближчим часом.
+                </p>
+                <p class="success-hint">Зазвичай ми відповідаємо протягом 2-4 годин у робочий час</p>
+                <button type="button" class="success-button" @click="resetForm">
+                  <Icon name="mdi:plus" size="md" />
+                  Надіслати ще одне повідомлення
+                </button>
+              </div>
+            </Transition>
+
+            <template v-if="!isSuccess">
+              <div class="form-header">
+                <h3 class="form-title">Напишіть нам</h3>
+                <p class="form-description">Заповніть форму і ми зв'яжемося з вами найближчим часом</p>
+              </div>
+
+              <form class="contact-form" @submit.prevent="handleSubmit">
               <div class="form-group">
                 <label for="name" class="form-label">
                   <Icon name="mdi:account" size="md" class="label-icon" />
@@ -115,48 +135,52 @@
               </div>
               
               <div class="form-group">
+                <label for="phone" class="form-label">
+                  <Icon name="mdi:phone" size="md" class="label-icon" />
+                  Телефон <span class="required">*</span>
+                </label>
+                <input
+                  id="phone"
+                  :value="phoneMask.phone.value"
+                  type="tel"
+                  class="form-input"
+                  placeholder="+38 (0XX) XXX XX XX"
+                  required
+                  :disabled="isSubmitting"
+                  @input="phoneMask.handlePhoneInput"
+                  @focus="phoneMask.handlePhoneFocus"
+                  @blur="phoneMask.handlePhoneBlur"
+                  @keydown="phoneMask.handlePhoneKeydown"
+                />
+              </div>
+
+              <div class="form-group">
                 <label for="email" class="form-label">
                   <Icon name="mdi:email" size="md" class="label-icon" />
-                  Електронна пошта <span class="required">*</span>
+                  Електронна пошта
                 </label>
-                <input 
+                <input
                   id="email"
                   v-model="form.email"
-                  type="email" 
+                  type="email"
                   class="form-input"
-                  required 
                   placeholder="your@email.com"
                   :disabled="isSubmitting"
                 />
               </div>
               
               <div class="form-group">
-                <label for="phone" class="form-label">
-                  <Icon name="mdi:phone" size="md" class="label-icon" />
-                  Телефон
-                </label>
-                <input 
-                  id="phone"
-                  v-model="form.phone"
-                  type="tel" 
-                  class="form-input"
-                  placeholder="+380777707232"
-                  :disabled="isSubmitting"
-                />
-              </div>
-              
-              <div class="form-group">
                 <label for="message" class="form-label">
-                  <Icon name="mdi:message-text" size="md" class="label-icon" />
-                  Повідомлення <span class="required">*</span>
+                  <Icon name="mdi:lightbulb" size="md" class="label-icon" />
+                  Розкажіть про ваш проєкт
                 </label>
-                <textarea 
+                <span class="form-hint">Опишіть ідею, тип сайту чи застосунку, бажані функції</span>
+                <textarea
                   id="message"
                   v-model="form.message"
                   class="form-textarea"
-                  required 
                   rows="6"
-                  placeholder="Опишіть ваш проект або питання..."
+                  placeholder="Наприклад: Потрібен інтернет-магазин для продажу одягу з інтеграцією оплати та доставки..."
                   :disabled="isSubmitting"
                 ></textarea>
               </div>
@@ -188,6 +212,7 @@
                 <span class="button-shine"></span>
               </button>
             </form>
+            </template>
           </div>
         </div>
       </div>
@@ -199,6 +224,7 @@
 import { ref, computed } from 'vue'
 import Icon from '../../components/Icon.vue'
 import { useFormSubmit } from '../../composables/useFormSubmit'
+import { usePhoneMask } from '../../composables/usePhoneMask'
 
 // @ts-ignore
 useHead({
@@ -209,23 +235,29 @@ useHead({
 })
 
 const { submitForm } = useFormSubmit()
+const phoneMask = usePhoneMask()
 
 const form = ref({
   name: '',
   email: '',
-  phone: '',
   message: ''
 })
 
 const isSubmitting = ref(false)
+const isSuccess = ref(false)
 const message = ref<{ type: 'success' | 'error' | null, text: string }>({ type: null, text: '' })
 
 // Form validation
 const isFormValid = computed(() => {
   return form.value.name.trim() !== '' &&
-         form.value.email.trim() !== '' &&
-         form.value.message.trim() !== ''
+         phoneMask.isValid.value
 })
+
+// Reset to form view
+const resetForm = () => {
+  isSuccess.value = false
+  message.value = { type: null, text: '' }
+}
 
 const handleSubmit = async () => {
   if (!isFormValid.value || isSubmitting.value) return
@@ -236,29 +268,30 @@ const handleSubmit = async () => {
   try {
     const result = await submitForm({
       name: form.value.name,
-      email: form.value.email,
-      phone: form.value.phone || undefined,
+      email: form.value.email || undefined,
+      phone: phoneMask.getCleanPhone(),
       message: form.value.message,
       subject: 'Нове повідомлення з сторінки контактів - WebCore'
     })
 
     if (result.success) {
-      message.value = { type: 'success', text: result.message || 'Повідомлення успішно відправлено!' }
-      
+      // Show success view
+      isSuccess.value = true
+
       // Reset form after success
       form.value = {
         name: '',
         email: '',
-        phone: '',
         message: ''
       }
+      phoneMask.phone.value = ''
     } else {
       message.value = { type: 'error', text: result.message || 'Помилка відправки повідомлення' }
     }
   } catch (error) {
-    message.value = { 
-      type: 'error', 
-      text: error instanceof Error ? error.message : 'Помилка відправки повідомлення' 
+    message.value = {
+      type: 'error',
+      text: error instanceof Error ? error.message : 'Помилка відправки повідомлення'
     }
   } finally {
     isSubmitting.value = false
@@ -629,6 +662,12 @@ const getParticleStyle = (index: number) => {
   color: var(--color-accent-secondary);
 }
 
+.form-hint {
+  font-size: 0.8rem;
+  color: var(--color-text-tertiary);
+  margin-top: -0.25rem;
+}
+
 .form-input,
 .form-textarea {
   padding: 0.875rem 1rem;
@@ -746,6 +785,121 @@ const getParticleStyle = (index: number) => {
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+/* Success View */
+.success-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 3rem 1.5rem;
+}
+
+.success-icon-wrapper {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.success-icon {
+  color: #10b981;
+  position: relative;
+  z-index: 2;
+  animation: successBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.success-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.3), transparent 70%);
+  border-radius: 50%;
+  animation: successPulse 2s ease-in-out infinite;
+}
+
+.success-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0 0 1rem 0;
+  background: linear-gradient(135deg, #10b981, #059669);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.success-message {
+  font-size: 1.1rem;
+  color: var(--color-text-secondary);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.6;
+  max-width: 400px;
+}
+
+.success-hint {
+  font-size: 0.9rem;
+  color: var(--color-text-tertiary);
+  margin: 0 0 2rem 0;
+}
+
+.success-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.success-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+}
+
+@keyframes successBounce {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes successPulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+.success-view-enter-active,
+.success-view-leave-active {
+  transition: all 0.4s ease;
+}
+
+.success-view-enter-from,
+.success-view-leave-to {
+  opacity: 0;
+  transform: scale(0.9);
 }
 
 @media (max-width: 1343px) {

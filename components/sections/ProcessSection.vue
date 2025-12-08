@@ -1,84 +1,84 @@
 <template>
   <section id="process-section" class="process-section">
     <!-- Animated Background -->
-    <div class="process-background">
-      <div class="animated-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
-        <div class="shape shape-4"></div>
+    <div class="section-bg">
+      <!-- Floating geometric shapes -->
+      <div class="geo-shape shape-1"></div>
+      <div class="geo-shape shape-2"></div>
+      <div class="geo-shape shape-3"></div>
+
+      <!-- Flowing gradient line -->
+      <div class="flow-line">
+        <div class="flow-gradient"></div>
       </div>
-      <div class="gradient-overlay"></div>
-      <div class="dots-pattern"></div>
+
+      <!-- Connection lines between cards (desktop) -->
+      <svg class="connection-lines" viewBox="0 0 1200 600" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="var(--color-accent-primary)" stop-opacity="0.3" />
+            <stop offset="50%" stop-color="var(--color-accent-secondary)" stop-opacity="0.5" />
+            <stop offset="100%" stop-color="var(--color-accent-tertiary)" stop-opacity="0.3" />
+          </linearGradient>
+        </defs>
+        <!-- Curved paths connecting cards -->
+        <path class="connection-path" d="M200,150 Q300,100 400,150" />
+        <path class="connection-path" d="M400,150 Q500,200 600,150" />
+        <path class="connection-path" d="M200,450 Q300,400 400,450" />
+        <path class="connection-path" d="M400,450 Q500,500 600,450" />
+        <path class="connection-path path-vertical" d="M600,150 Q650,300 600,450" />
+      </svg>
+
+      <!-- Accent dots -->
+      <div class="accent-dot dot-1"></div>
+      <div class="accent-dot dot-2"></div>
     </div>
 
     <div class="container">
       <div class="section-header">
-        <div class="header-badge">
-          <Icon name="mdi:cog" size="md" class="badge-icon" />
-          <span>Наш процес</span>
-        </div>
+        <span class="section-label">Наш процес</span>
         <h2 class="section-title">
-          Як ми <span class="gradient-text">створюємо</span> ваш проект
+          Як ми створюємо ваш проєкт
         </h2>
         <p class="section-description">
-          Як ми працюємо з вами, щоб створити сайт, який принесе реальний результат вашому бізнесу
+          Прозорий процес від ідеї до результату
         </p>
       </div>
-      
-      <!-- Desktop Grid with Arrows -->
-      <div class="process-grid desktop-timeline">
-        <div 
-          v-for="(step, index) in processSteps" 
+
+      <!-- Desktop Grid -->
+      <div class="process-grid desktop-grid">
+        <div
+          v-for="(step, index) in processSteps"
           :key="step.title"
-          class="process-step-wrapper"
+          class="process-step"
+          :class="`step-${index + 1}`"
         >
-          <div class="step-card">
-            <div class="card-glow"></div>
+          <!-- Background image -->
+          <div class="card-bg-image" :style="{ backgroundImage: `url(${step.image})` }"></div>
+
+          <!-- Card glow effect -->
+          <div class="card-glow"></div>
+
+          <!-- Top accent line -->
+          <div class="card-accent"></div>
+
+          <!-- Step number with icon -->
+          <div class="step-header">
             <div class="step-number">
-              <span>{{ String(index + 1).padStart(2, '0') }}</span>
+              <span>{{ index + 1 }}</span>
             </div>
-            <div class="card-inner">
-              <div class="step-icon-wrapper">
-                <div class="icon-background"></div>
-                <div class="step-icon">
-                  <Icon :name="step.icon" size="lg" />
-                </div>
-              </div>
-              <div class="step-content">
-                <h3 class="step-title">{{ step.title }}</h3>
-                <p class="step-description">{{ step.description }}</p>
-              </div>
+            <div class="step-icon">
+              <component :is="getIcon(index)" />
             </div>
           </div>
-          <!-- Arrow to next step -->
-          <div 
-            v-if="index < processSteps.length - 1 && index !== 2" 
-            class="step-arrow"
-          >
-            <svg 
-              width="32" 
-              height="32" 
-              viewBox="0 0 32 32" 
-              fill="none" 
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <defs>
-                <linearGradient :id="`arrowGradient${index}`" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:1" />
-                  <stop offset="100%" style="stop-color:#D946EF;stop-opacity:1" />
-                </linearGradient>
-              </defs>
-              <path 
-                d="M16 4 L26 16 L16 28 M26 16 L4 16" 
-                :stroke="`url(#arrowGradient${index})`" 
-                stroke-width="2.5" 
-                stroke-linecap="round" 
-                stroke-linejoin="round"
-                fill="none"
-              />
-            </svg>
+
+          <div class="step-content">
+            <h3 class="step-title">{{ step.title }}</h3>
+            <p class="step-description">{{ step.description }}</p>
           </div>
+
+          <!-- Corner decoration -->
+          <div class="corner-deco"></div>
         </div>
       </div>
 
@@ -87,622 +87,553 @@
         <Swiper
           :modules="modules"
           :slides-per-view="1"
-          :space-between="20"
+          :space-between="16"
           :pagination="{ clickable: true }"
-          :autoplay="{ delay: 5000, disableOnInteraction: false }"
-          :observer="true"
-          :observe-parents="true"
           class="process-swiper"
         >
-          <SwiperSlide 
-            v-for="(step, index) in processSteps" 
+          <SwiperSlide
+            v-for="(step, index) in processSteps"
             :key="step.title"
           >
-            <div class="step-card mobile-card">
-              <div class="card-glow"></div>
-              <div class="step-number">
-                <span>{{ String(index + 1).padStart(2, '0') }}</span>
+            <div class="process-step">
+              <div class="card-bg-image" :style="{ backgroundImage: `url(${step.image})` }"></div>
+              <div class="card-accent"></div>
+              <div class="step-header">
+                <div class="step-number">
+                  <span>{{ index + 1 }}</span>
+                </div>
+                <div class="step-icon">
+                  <component :is="getIcon(index)" />
+                </div>
               </div>
-              <div class="card-inner">
-                <div class="step-icon-wrapper">
-                  <div class="icon-background"></div>
-                  <div class="step-icon">
-                    <Icon :name="step.icon" size="lg" />
-                  </div>
-                </div>
-                <div class="step-content">
-                  <h3 class="step-title">{{ step.title }}</h3>
-                  <p class="step-description">{{ step.description }}</p>
-                </div>
+              <div class="step-content">
+                <h3 class="step-title">{{ step.title }}</h3>
+                <p class="step-description">{{ step.description }}</p>
               </div>
             </div>
           </SwiperSlide>
         </Swiper>
       </div>
     </div>
-
-    <!-- Floating Particles -->
-    <div class="floating-particles">
-      <div class="particle" v-for="i in 15" :key="i" :style="getParticleStyle(i)"></div>
-    </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import { h } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Pagination, Autoplay } from 'swiper/modules'
+import { Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
-import Icon from '../Icon.vue'
 
-// Swiper modules
-const modules = [Pagination, Autoplay]
+const modules = [Pagination]
 
-// Process steps data
 const processSteps = [
   {
-    title: 'Аналіз і постановка цілей',
-    description: 'Разом з вами визначаємо, чого хоче досягти ваш бізнес: більше клієнтів, збільшення продажів чи підвищення впізнаваності бренду. Зрозумівши ваші цілі, ми будуємо план досягнення результатів.',
-    icon: 'mdi:target'
+    title: 'Аналіз',
+    description: 'Визначаємо цілі вашого бізнесу та розробляємо стратегію досягнення результатів.',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop&q=80'
   },
   {
-    title: 'Планування проєкту',
-    description: 'Створюємо детальний план роботи, обговорюємо структуру сайту та функції, які допоможуть досягти ваших бізнес-цілей. Узгоджуємо терміни та очікування.',
-    icon: 'mdi:clipboard-text'
+    title: 'Планування',
+    description: 'Створюємо структуру сайту та узгоджуємо функціонал для досягнення ваших цілей.',
+    image: 'https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?w=400&h=300&fit=crop&q=80'
   },
   {
-    title: 'Дизайн, який конвертує',
-    description: 'Створюємо дизайн, який не просто красивий, але й працює на ваш бізнес: залучає клієнтів, підвищує довіру та допомагає досягти ваших цілей.',
-    icon: 'mdi:palette'
+    title: 'Дизайн',
+    description: 'Розробляємо сучасний дизайн, що конвертує відвідувачів у клієнтів.',
+    image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=300&fit=crop&q=80'
   },
   {
-    title: 'Створення вашого сайту',
-    description: 'Перетворюємо дизайн у робочий сайт, який швидко завантажується, легко знаходиться в пошуку та приносить результат вашому бізнесу.',
-    icon: 'mdi:web'
+    title: 'Розробка',
+    description: 'Створюємо швидкий та оптимізований сайт з чистим кодом.',
+    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop&q=80'
   },
   {
-    title: 'Запуск та підтримка',
-    description: 'Перевіряємо, що все працює ідеально, після чого запускаємо ваш сайт. Далі ми завжди поруч, щоб допомогти розвивати проєкт.',
-    icon: 'mdi:rocket-launch'
+    title: 'Запуск',
+    description: 'Тестуємо та запускаємо ваш проєкт. Забезпечуємо підтримку після релізу.',
+    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=300&fit=crop&q=80'
   },
   {
-    title: 'Розвиток та оптимізація',
-    description: 'Аналізуємо результати, додаємо нові можливості та вдосконалюємо сайт, щоб він продовжував приносити більше клієнтів та збільшувати дохід.',
-    icon: 'mdi:chart-line'
+    title: 'Розвиток',
+    description: 'Аналізуємо результати та вдосконалюємо сайт для збільшення конверсій.',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop&q=80'
   }
 ]
 
-// Generate random particle styles
-const getParticleStyle = (index: number) => {
-  const size = Math.random() * 8 + 4
-  const left = Math.random() * 100
-  const animationDuration = Math.random() * 10 + 15
-  const delay = Math.random() * 5
-  
-  return {
-    width: `${size}px`,
-    height: `${size}px`,
-    left: `${left}%`,
-    animationDuration: `${animationDuration}s`,
-    animationDelay: `${delay}s`
-  }
-}
+// SVG icons for each step
+const icons = [
+  // Target/Analysis
+  () => h('svg', { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': '2' }, [
+    h('circle', { cx: '12', cy: '12', r: '10' }),
+    h('circle', { cx: '12', cy: '12', r: '6' }),
+    h('circle', { cx: '12', cy: '12', r: '2' })
+  ]),
+  // Planning/Clipboard
+  () => h('svg', { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': '2' }, [
+    h('path', { d: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2' }),
+    h('rect', { x: '9', y: '3', width: '6', height: '4', rx: '1' }),
+    h('path', { d: 'M9 12h6M9 16h6' })
+  ]),
+  // Design/Palette
+  () => h('svg', { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': '2' }, [
+    h('circle', { cx: '12', cy: '12', r: '10' }),
+    h('circle', { cx: '12', cy: '8', r: '1.5', fill: 'currentColor' }),
+    h('circle', { cx: '8', cy: '12', r: '1.5', fill: 'currentColor' }),
+    h('circle', { cx: '16', cy: '12', r: '1.5', fill: 'currentColor' }),
+    h('circle', { cx: '12', cy: '16', r: '1.5', fill: 'currentColor' })
+  ]),
+  // Development/Code
+  () => h('svg', { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': '2' }, [
+    h('path', { d: 'M16 18l6-6-6-6M8 6l-6 6 6 6' })
+  ]),
+  // Launch/Rocket
+  () => h('svg', { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': '2' }, [
+    h('path', { d: 'M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z' }),
+    h('path', { d: 'M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z' }),
+    h('path', { d: 'M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5' })
+  ]),
+  // Growth/Chart
+  () => h('svg', { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': '2' }, [
+    h('path', { d: 'M3 3v18h18' }),
+    h('path', { d: 'M18 9l-5 5-4-4-4 4' })
+  ])
+]
+
+const getIcon = (index: number) => icons[index] || icons[0]
 </script>
 
 <style scoped>
-.container {
-  margin: 0 auto;
-  padding: 0 1.5rem;
-  max-width: 1200px;
-  position: relative;
-  z-index: 2;
-}
-
-/* Process Section */
 .process-section {
-  padding: 5rem 0;
+  padding: 6rem 0;
+  background: var(--color-bg-secondary);
   position: relative;
   overflow: hidden;
-  background: var(--color-bg-primary);
 }
 
-/* Animated Background */
-.process-background {
+/* Background */
+.section-bg {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
 }
 
-.animated-shapes {
+/* Subtle gradient overlay */
+.section-bg::before {
+  content: '';
   position: absolute;
-  width: 100%;
-  height: 100%;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 80% 50% at 50% 0%,
+    rgba(139, 92, 246, 0.06) 0%,
+    transparent 60%
+  );
 }
 
-.shape {
+/* Geometric floating shapes */
+.geo-shape {
   position: absolute;
-  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-  filter: blur(80px);
+  border: 1px solid var(--color-border-primary);
   opacity: 0.4;
-  animation: morphShape 20s ease-in-out infinite;
 }
 
 .shape-1 {
-  width: 400px;
-  height: 400px;
-  background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
-  top: -10%;
-  left: -5%;
-  animation-delay: 0s;
+  width: 120px;
+  height: 120px;
+  top: 10%;
+  left: 5%;
+  border-radius: 24px;
+  transform: rotate(15deg);
+  animation: floatShape 20s ease-in-out infinite;
 }
 
 .shape-2 {
-  width: 300px;
-  height: 300px;
-  background: linear-gradient(135deg, var(--color-accent-secondary), var(--color-accent-tertiary));
-  top: 50%;
-  right: -5%;
-  animation-delay: 5s;
+  width: 80px;
+  height: 80px;
+  top: 60%;
+  right: 8%;
+  border-radius: 50%;
+  animation: floatShape 25s ease-in-out infinite reverse;
 }
 
 .shape-3 {
+  width: 60px;
+  height: 60px;
+  bottom: 15%;
+  left: 15%;
+  transform: rotate(45deg);
+  animation: floatShape 18s ease-in-out infinite;
+}
+
+@keyframes floatShape {
+  0%, 100% {
+    transform: translateY(0) rotate(15deg);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(-20px) rotate(25deg);
+    opacity: 0.6;
+  }
+}
+
+/* Connection lines SVG */
+.connection-lines {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 1200px;
+  height: 100%;
+  opacity: 0.5;
+}
+
+.connection-path {
+  fill: none;
+  stroke: url(#lineGradient);
+  stroke-width: 2;
+  stroke-dasharray: 8 4;
+  animation: dashMove 20s linear infinite;
+}
+
+@keyframes dashMove {
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+
+/* Flowing gradient line */
+.flow-line {
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  right: 5%;
+  height: 1px;
+  background: var(--color-border-primary);
+  opacity: 0.5;
+}
+
+.flow-gradient {
+  position: absolute;
+  top: -2px;
+  left: -30%;
+  width: 30%;
+  height: 5px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--color-accent-primary) 30%,
+    var(--color-accent-secondary) 70%,
+    transparent 100%
+  );
+  border-radius: 3px;
+  animation: flowMove 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  opacity: 0.8;
+}
+
+/* Accent dots */
+.accent-dot {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.05;
+}
+
+.dot-1 {
+  width: 400px;
+  height: 400px;
+  top: -150px;
+  left: -50px;
+  background: var(--color-accent-primary);
+}
+
+.dot-2 {
   width: 350px;
   height: 350px;
-  background: linear-gradient(135deg, var(--color-accent-tertiary), var(--color-accent-primary));
-  bottom: -10%;
-  left: 50%;
-  animation-delay: 10s;
+  bottom: -120px;
+  right: -50px;
+  background: var(--color-accent-secondary);
 }
 
-.shape-4 {
-  width: 250px;
-  height: 250px;
-  background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-tertiary));
-  top: 20%;
-  left: 30%;
-  animation-delay: 15s;
+@keyframes flowMove {
+  0% {
+    left: -30%;
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.8;
+  }
+  95% {
+    opacity: 0.8;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
 }
 
-.gradient-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at 50% 50%, transparent 0%, var(--color-bg-primary) 70%);
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  position: relative;
   z-index: 1;
 }
 
-.dots-pattern {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: radial-gradient(circle, var(--color-border-primary) 1px, transparent 1px);
-  background-size: 30px 30px;
-  opacity: 0.3;
-  z-index: 1;
-}
-
-/* Header Styles */
+/* Header */
 .section-header {
   text-align: center;
-  margin-bottom: 3rem;
-  position: relative;
-  z-index: 2;
+  margin-bottom: 4rem;
 }
 
-.header-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1.25rem;
-  background: var(--color-card-bg);
-  border: 1px solid var(--color-border-accent);
-  border-radius: 50px;
+.section-label {
+  display: inline-block;
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--color-accent-primary);
-  margin-bottom: 1.5rem;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.2);
-  animation: badgeFloat 3s ease-in-out infinite;
-}
-
-.badge-icon {
-  color: var(--color-accent-secondary);
-  animation: iconRotate 4s linear infinite;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
 }
 
 .section-title {
   font-size: 2.5rem;
-  font-weight: 900;
+  font-weight: 700;
   color: var(--color-text-primary);
   margin-bottom: 1rem;
   line-height: 1.2;
 }
 
-.gradient-text {
-  background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary), var(--color-accent-tertiary));
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  position: relative;
-  display: inline-block;
-}
-
 .section-description {
   font-size: 1.125rem;
   color: var(--color-text-secondary);
-  max-width: 600px;
+  max-width: 500px;
   margin: 0 auto;
-  line-height: 1.6;
 }
 
 /* Process Grid */
 .process-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  gap: 2rem;
+}
+
+.process-step {
   position: relative;
-  max-width: 1200px;
-  margin: 2rem auto 0;
-  padding: 0 1rem;
-  align-items: stretch;
+  padding: 2rem;
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: 20px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px var(--color-shadow-color);
+  overflow: hidden;
 }
 
-.process-step-wrapper {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  height: 100%;
-}
-
-@media (min-width: 1024px) {
-  .process-step-wrapper {
-    opacity: 0;
-    animation: fadeInUp 0.6s ease forwards;
-  }
-
-  .process-step-wrapper:nth-child(1) { animation-delay: 0.1s; }
-  .process-step-wrapper:nth-child(2) { animation-delay: 0.2s; }
-  .process-step-wrapper:nth-child(3) { animation-delay: 0.3s; }
-  .process-step-wrapper:nth-child(4) { animation-delay: 0.4s; }
-  .process-step-wrapper:nth-child(5) { animation-delay: 0.5s; }
-  .process-step-wrapper:nth-child(6) { animation-delay: 0.6s; }
-}
-
-/* Arrow between steps */
-.step-arrow {
+/* Background image on cards */
+.card-bg-image {
   position: absolute;
-  right: -0.75rem;
+  top: 0;
+  right: 0;
+  width: 55%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.15;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, transparent 100%);
+  pointer-events: none;
+  border-radius: 0 20px 20px 0;
+}
+
+.process-step:hover .card-bg-image {
+  opacity: 0.25;
+  width: 65%;
+  transform: scale(1.08);
+}
+
+/* Card glow effect on hover */
+.card-glow {
+  position: absolute;
   top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  opacity: 0.7;
-  transition: all 0.3s ease;
+  left: 50%;
+  width: 150%;
+  height: 150%;
+  background: radial-gradient(
+    circle,
+    rgba(139, 92, 246, 0.08) 0%,
+    transparent 60%
+  );
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
   pointer-events: none;
 }
 
-.process-step-wrapper:hover .step-arrow {
+.process-step:hover .card-glow {
   opacity: 1;
-  transform: translateY(-50%) scale(1.1);
 }
 
-.step-arrow svg {
-  width: 28px;
-  height: 28px;
-  filter: drop-shadow(0 2px 8px rgba(139, 92, 246, 0.4));
-}
-
-
-.mobile-carousel {
-  display: none;
-}
-
-/* Step Card */
-.step-card {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background: var(--color-card-bg);
-  border: 1px solid var(--color-border-primary);
-  border-radius: 20px;
-  padding: 1.5rem;
-  backdrop-filter: blur(20px);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
-  min-height: 280px;
-  display: flex;
-  flex-direction: column;
-}
-
-.step-card::before {
-  content: '';
+/* Top accent line with gradient */
+.card-accent {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--color-accent-primary), var(--color-accent-secondary), var(--color-accent-tertiary));
+  background: linear-gradient(90deg,
+    var(--color-accent-primary),
+    var(--color-accent-secondary),
+    var(--color-accent-tertiary)
+  );
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.4s ease;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.step-card:hover::before {
+.process-step:hover .card-accent {
   transform: scaleX(1);
 }
 
-.card-glow {
+/* Corner decoration */
+.corner-deco {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.15), transparent 70%);
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
+  bottom: 0;
+  right: 0;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(
+    135deg,
+    transparent 50%,
+    rgba(139, 92, 246, 0.03) 50%
+  );
+  border-radius: 0 0 20px 0;
+  transition: all 0.3s ease;
 }
 
-.step-card:hover .card-glow {
-  opacity: 1;
+.process-step:hover .corner-deco {
+  background: linear-gradient(
+    135deg,
+    transparent 50%,
+    rgba(139, 92, 246, 0.08) 50%
+  );
 }
 
-.step-card:hover {
-  border-color: var(--color-border-accent);
+.process-step:hover {
+  border-color: rgba(139, 92, 246, 0.3);
+  box-shadow:
+    0 12px 32px rgba(139, 92, 246, 0.1),
+    0 0 0 1px rgba(139, 92, 246, 0.05);
+  transform: translateY(-6px);
+}
+
+/* Step header with number and icon */
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 .step-number {
-  position: absolute;
-  top: -12px;
-  right: 1rem;
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
-  color: white;
-  border-radius: 12px;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
-  font-weight: 800;
-  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
-  z-index: 2;
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 700;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
+  transition: all 0.3s ease;
 }
 
-.step-number span {
-  background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.7) 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.card-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 1rem;
-  flex: 1;
-}
-
-.step-icon-wrapper {
-  position: relative;
-  width: 60px;
-  height: 60px;
-  flex-shrink: 0;
-}
-
-.icon-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, 
-    rgba(139, 92, 246, 0.1), 
-    rgba(217, 70, 239, 0.1),
-    rgba(249, 115, 22, 0.1)
-  );
-  border-radius: 24px;
-  animation: iconPulse 3s ease-in-out infinite;
+.process-step:hover .step-number {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(139, 92, 246, 0.35);
 }
 
 .step-icon {
-  position: relative;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 24px;
+  height: 24px;
   color: var(--color-accent-primary);
-  font-size: 2rem;
+  opacity: 0.7;
   transition: all 0.3s ease;
-  z-index: 1;
 }
 
-.step-card:hover .step-icon {
-  transform: scale(1.1) rotate(5deg);
-  color: var(--color-accent-secondary);
+.step-icon svg {
+  width: 100%;
+  height: 100%;
 }
 
-.step-content {
-  position: relative;
-  z-index: 1;
-  flex: 1;
-  min-width: 0;
+.process-step:hover .step-icon {
+  opacity: 1;
+  transform: translateX(4px);
 }
 
 .step-title {
-  font-size: 1.125rem;
-  font-weight: 700;
+  font-size: 1.25rem;
+  font-weight: 600;
   color: var(--color-text-primary);
   margin-bottom: 0.75rem;
-  line-height: 1.3;
-  user-select: none;
 }
 
 .step-description {
+  font-size: 0.9375rem;
   color: var(--color-text-secondary);
-  line-height: 1.6;
-  font-size: 0.875rem;
-  user-select: none;
+  line-height: 1.7;
 }
 
-/* Floating Particles */
-.floating-particles {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  z-index: 1;
+/* Mobile */
+.mobile-carousel {
+  display: none;
 }
 
-.particle {
-  position: absolute;
-  bottom: -10px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
-  opacity: 0.4;
-  animation: floatUp linear infinite;
-}
-
-/* Animations */
-@keyframes morphShape {
-  0%, 100% {
-    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-    transform: rotate(0deg) scale(1);
-  }
-  25% {
-    border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%;
-    transform: rotate(90deg) scale(1.1);
-  }
-  50% {
-    border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%;
-    transform: rotate(180deg) scale(0.9);
-  }
-  75% {
-    border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
-    transform: rotate(270deg) scale(1.05);
-  }
-}
-
-@keyframes badgeFloat {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes iconRotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes iconPulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.6;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 0.8;
-  }
-}
-
-@keyframes floatUp {
-  0% {
-    bottom: -10px;
-    opacity: 0.4;
-  }
-  50% {
-    opacity: 0.6;
-  }
-  100% {
-    bottom: 100%;
-    opacity: 0;
-  }
-}
-
-/* Swiper Styles */
 .process-swiper {
-  padding-bottom: 3rem;
-}
-
-.process-swiper :deep(.swiper-wrapper) {
-  align-items: stretch;
-}
-
-.process-swiper :deep(.swiper-slide) {
-  height: auto;
-  display: flex;
-}
-
-.mobile-card {
-  width: 100% !important;
-  margin: 0 !important;
-  height: 100%;
-  min-height: 280px;
-  display: flex;
-  flex-direction: column;
-}
-
-.mobile-card .card-inner {
-  flex: 1;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-}
-
-/* Swiper pagination customization */
-:deep(.swiper-pagination) {
-  bottom: 0 !important;
+  padding-bottom: 2.5rem;
 }
 
 :deep(.swiper-pagination-bullet) {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   background: var(--color-border-primary);
-  opacity: 0.5;
-  transition: all 0.3s ease;
+  opacity: 1;
+  transition: all 0.2s ease;
 }
 
 :deep(.swiper-pagination-bullet-active) {
   background: var(--color-accent-primary);
-  opacity: 1;
   width: 24px;
-  border-radius: 5px;
+  border-radius: 4px;
 }
 
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 1024px) {
+  .process-section {
+    padding: 5rem 0;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .process-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .connection-lines {
+    display: none;
+  }
+
+  .geo-shape {
+    opacity: 0.25;
+  }
+}
+
+@media (max-width: 768px) {
   .process-section {
     padding: 4rem 0;
   }
@@ -712,10 +643,14 @@ const getParticleStyle = (index: number) => {
   }
 
   .section-title {
-    font-size: 2rem;
+    font-size: 1.75rem;
   }
 
-  .desktop-timeline {
+  .section-description {
+    font-size: 1rem;
+  }
+
+  .desktop-grid {
     display: none;
   }
 
@@ -723,161 +658,48 @@ const getParticleStyle = (index: number) => {
     display: block;
   }
 
-  .step-arrow {
+  .process-step {
+    padding: 1.5rem;
+    height: 100%;
+  }
+
+  .geo-shape {
     display: none;
-  }
-
-  .step-card {
-    padding: 1.75rem;
-  }
-
-  .shape {
-    filter: blur(60px);
-    opacity: 0.3;
-  }
-}
-
-@media (max-width: 1343px) {
-  .process-section {
-    padding: 4rem 0;
-  }
-
-  .section-header {
-    margin-bottom: 2.5rem;
-  }
-
-  .section-title {
-    font-size: 2rem;
-  }
-
-  .section-description {
-    font-size: 1rem;
-  }
-
-  .process-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
-  }
-
-  /* Hide horizontal arrows, show vertical arrows after every 2nd item */
-  .step-arrow {
-    display: none;
-  }
-
-  .process-step-wrapper:nth-child(2n) .step-arrow {
-    display: block !important;
-    right: 50% !important;
-    top: auto !important;
-    bottom: -0.75rem !important;
-    transform: translateX(50%) rotate(90deg) !important;
-  }
-
-  .process-step-wrapper:nth-child(2n):hover .step-arrow {
-    transform: translateX(50%) rotate(90deg) scale(1.1) !important;
-  }
-
-  .step-card {
-    padding: 1.25rem;
-    min-height: 180px;
-  }
-
-  .step-title {
-    font-size: 1rem;
-  }
-
-  .step-description {
-    font-size: 0.85rem;
-  }
-
-  .step-icon-wrapper {
-    width: 50px;
-    height: 50px;
-  }
-
-  .step-icon {
-    width: 50px;
-    height: 50px;
-    font-size: 1.75rem;
-  }
-
-  .step-number {
-    width: 36px;
-    height: 36px;
-    font-size: 0.9rem;
   }
 }
 
 @media (max-width: 480px) {
   .process-section {
-    padding: 2.5rem 0;
-  }
-
-  .section-header {
-    margin-bottom: 2.5rem;
+    padding: 3rem 0;
   }
 
   .section-title {
     font-size: 1.5rem;
   }
 
-  .section-description {
-    font-size: 0.95rem;
+  .flow-line {
+    display: none;
   }
 
-  .step-card {
-    padding: 1.25rem;
-    border-radius: 16px;
+  .accent-dot {
+    opacity: 0.03;
+    filter: blur(50px);
   }
 
-  .process-step {
-    margin-bottom: 1.25rem;
+  .dot-1, .dot-2 {
+    width: 200px;
+    height: 200px;
   }
 
   .step-number {
-    width: 36px;
-    height: 36px;
-    font-size: 0.875rem;
-    top: -10px;
-    right: 1rem;
-  }
-
-  .mobile-card {
-    min-height: 220px;
-  }
-
-  .card-inner {
-    gap: 0.75rem;
-  }
-
-  .step-icon-wrapper {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
   }
 
   .step-icon {
-    width: 50px;
-    height: 50px;
-    font-size: 1.5rem;
-  }
-
-  .step-title {
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .step-description {
-    font-size: 0.85rem;
-    line-height: 1.5;
-  }
-
-  .shape {
-    filter: blur(40px);
-    opacity: 0.2;
-  }
-
-  .dots-pattern {
-    opacity: 0.2;
+    width: 20px;
+    height: 20px;
   }
 }
-
 </style>
