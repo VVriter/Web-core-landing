@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
   if (!body.name || !body.phone) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'Missing required fields: name, phone'
+      message: 'Missing required fields: name, phone'
     })
   }
 
@@ -68,7 +68,7 @@ ${escapeHtml(message)}` : ''}
   if (!results.telegram && !results.email) {
     throw createError({
       statusCode: 500,
-      statusMessage: 'Помилка відправки повідомлення. Спробуйте пізніше.'
+      message: 'Помилка відправки повідомлення. Спробуйте пізніше.'
     })
   }
 
